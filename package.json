@@ -1,0 +1,30 @@
+{
+  "name": "hw-calendar-exporter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/index.js",
+  "scripts": {
+    "test": "jest --no-cache",
+    "start": "node build/index.js",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "lint": "tslint -p .",
+    "lint:fix": "tslint --fix -p ."
+  },
+  "dependencies": {
+    "@types/puppeteer": "^3.0.0",
+    "axios": "^0.19.2",
+    "dotenv": "^8.2.0",
+    "puppeteer": "^3.2.0",
+    "tslint": "^6.1.2",
+    "typescript": "^3.9.3"
+  },
+  "devDependencies": {
+    "@types/jest": "^25.2.3",
+    "@types/node": "^14.0.6",
+    "jest": "^26.0.1",
+    "ts-jest": "^26.1.0"
+  },
+  "author": "",
+  "license": "ISC"
+}
