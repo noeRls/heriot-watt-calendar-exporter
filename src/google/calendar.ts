@@ -99,10 +99,11 @@ const createCourse = async (api: CalendarApi, course: Course, calendar: Calendar
     });
 }
 
+const scotlandUTCDiff = 60 * 60 * 1000; //ms
 const courseExist = (events: Event[], course: Course): boolean =>
     events.some(event => event.summary === course.block.title &&
-        new Date(event.start.dateTime).getTime() === course.start &&
-        new Date(event.end.dateTime).getTime() === course.end
+        new Date(event.start.dateTime).getTime() === course.start - scotlandUTCDiff &&
+        new Date(event.end.dateTime).getTime() === course.end - scotlandUTCDiff
     )
 
 export const createCourses = async (auth: OAuth2Client, courses: Course[], calendar: Calendar): Promise<Course[]> => {
