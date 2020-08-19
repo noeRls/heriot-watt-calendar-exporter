@@ -16,6 +16,7 @@
     "@types/ramda": "^0.27.14",
     "axios": "^0.19.2",
     "dotenv": "^8.2.0",
+    "googleapis": "^39.2.0",
     "puppeteer": "^3.2.0",
     "ramda": "^0.27.1",
     "tslint": "^6.1.2",

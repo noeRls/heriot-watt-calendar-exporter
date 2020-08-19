@@ -2,6 +2,7 @@ import * as puppeteer from 'puppeteer';
 import { getPage, releasePage } from './puppeteerProvider'
 import { Page, ElementHandle } from 'puppeteer';
 import { Dictionary, last } from 'ramda';
+import { Block, CourseDetail, Course } from '../types';
 
 interface DayTime {
     hour: number;
@@ -102,16 +103,15 @@ interface ComputeDateResult {
     end: number;
 }
 const computeDate = (startTime: DayTime, endTime: DayTime, day: string, weekStart: string): ComputeDateResult => {
-    const weekStartDate = new Date(`${weekStart} UTC+0`);
+    const weekStartDate = new Date(`${weekStart} UTC+0`); // UTC+0 prevent from using local TZ
     const dayOffset = dayToOffset[day];
     if (!dayOffset) {
         throw new Error('Failed to compute date');
     }
     const dayDate = new Date(weekStartDate.setDate(dayOffset - weekStartDate.getDay() + weekStartDate.getDate()));
-    const scotlandTimeOffset = 0;
     return {
-        start: dayDate.setUTCHours(startTime.hour + scotlandTimeOffset, startTime.min),
-        end: dayDate.setUTCHours(endTime.hour + scotlandTimeOffset, endTime.min),
+        start: dayDate.setUTCHours(startTime.hour, startTime.min),
+        end: dayDate.setUTCHours(endTime.hour, endTime.min),
     }
 }
 

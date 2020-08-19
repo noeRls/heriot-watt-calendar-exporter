@@ -7,7 +7,9 @@ function sleep(ms: number) {
 let browser: Browser = null;
 let maxPage: number = 10;
 let loading: boolean = false;
+let pageNb = 0;
 export const getPage = async (): Promise<Page> => {
+    pageNb += 1;
     if (!browser) {
         loading = true;
         browser = await launch();
@@ -35,7 +37,8 @@ export const setMaxPage = (nb: number) => {
 
 export const releasePage = async (page: Page) => {
     await page.close();
-    if ((await browser.pages()).length === 0) {
+    pageNb -= 1;
+    if (browser && pageNb === 0) {
         const bcpBrowser = browser;
         browser = null;
         await bcpBrowser.close();
