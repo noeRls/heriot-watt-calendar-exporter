@@ -1,0 +1,19 @@
+
+version: "3"
+
+services:
+  server:
+    entrypoint: npm run-script dev
+    volumes:
+      - ./server/src:/app/src
+    environment:
+      STAGE: development
+      COOKIES_DOMAIN: '.'
+
+  client:
+    stdin_open: true
+    environment:
+      REACT_APP_API_URL: http://localhost:8081
+    volumes:
+      - ./client/src:/app/src
+      - ./client/public:/app/public

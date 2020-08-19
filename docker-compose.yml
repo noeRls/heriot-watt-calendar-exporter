@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  server:
+    build: ./server
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    environment:
+      PORT: 8081
+      CORS: all
+      SERVER_GOOGLE_CLIENT_ID: ${SERVER_GOOGLE_CLIENT_ID}
+      SERVER_GOOGLE_CLIENT_SECRET: ${SERVER_GOOGLE_CLIENT_SECRET}
+      HW_PWD: ${HW_PWD}
+      HW_USERNAME: ${HW_USERNAME}
+      DATABASE_URL: postgresql://root:password@database:5432/mydb?schema=public
+
+  client:
+    build: ./client
+    ports:
+      - "3000:3000"
+    environment:
+      REACT_APP_API_URL: http://localhost:8081
+
+  database:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: sharingcenter

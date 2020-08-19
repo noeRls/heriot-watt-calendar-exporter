@@ -1,0 +1,771 @@
+
+  {
+    "block": {
+      "id": "F20SF-S1",
+      "title": "Software Engineering Foundations"
+    },
+    "start": 1600182000000,
+    "end": 1600185600000,
+    "detail": {
+      "teachingWeek": "1-12",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr J. Gabbay"
+    }
+  },
+  {
+    "block": {
+      "id": "F21BC-S1",
+      "title": "Biologically Inspired Computation"
+    },
+    "start": 1600185600000,
+    "end": 1600189200000,
+    "detail": {
+      "teachingWeek": "1-11",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr W. Pang Dr M. Lones"
+    }
+  },
+  {
+    "block": {
+      "id": "F20SF-S1",
+      "title": "Software Engineering Foundations"
+    },
+    "start": 1600704000000,
+    "end": 1600707600000,
+    "detail": {
+      "teachingWeek": "1-12",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr J. Gabbay"
+    }
+  },
+  {
+    "block": {
+      "id": "F20SF-S1",
+      "title": "Software Engineering Foundations"
+    },
+    "start": 1600768800000,
+    "end": 1600772400000,
+    "detail": {
+      "teachingWeek": "2-11",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr J. Gabbay"
+    }
+  },
+  {
+    "block": {
+      "id": "F20SF-S1",
+      "title": "Software Engineering Foundations"
+    },
+    "start": 1600786800000,
+    "end": 1600790400000,
+    "detail": {
+      "teachingWeek": "1-12",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr J. Gabbay"
+    }
+  },
+  {
+    "block": {
+      "id": "F21BC-S1",
+      "title": "Biologically Inspired Computation"
+    },
+    "start": 1600790400000,
+    "end": 1600794000000,
+    "detail": {
+      "teachingWeek": "1-11",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr W. Pang Dr M. Lones"
+    }
+  },
+  {
+    "block": {
+      "id": "F21BC-S1",
+      "title": "Biologically Inspired Computation"
+    },
+    "start": 1600794000000,
+    "end": 1600797600000,
+    "detail": {
+      "teachingWeek": "2-11",
+      "locations": [
+        "EM245",
+        "EM250",
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr M. Lones Dr W. Pang"
+    }
+  },
+  {
+    "block": {
+      "id": "F20SF-S1",
+      "title": "Software Engineering Foundations"
+    },
+    "start": 1601308800000,
+    "end": 1601312400000,
+    "detail": {
+      "teachingWeek": "1-12",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr J. Gabbay"
+    }
+  },
+  {
+    "block": {
+      "id": "F20SF-S1",
+      "title": "Software Engineering Foundations"
+    },
+    "start": 1601373600000,
+    "end": 1601377200000,
+    "detail": {
+      "teachingWeek": "2-11",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr J. Gabbay"
+    }
+  },
+  {
+    "block": {
+      "id": "F20SF-S1",
+      "title": "Software Engineering Foundations"
+    },
+    "start": 1601391600000,
+    "end": 1601395200000,
+    "detail": {
+      "teachingWeek": "1-12",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr J. Gabbay"
+    }
+  },
+  {
+    "block": {
+      "id": "F21BC-S1",
+      "title": "Biologically Inspired Computation"
+    },
+    "start": 1601395200000,
+    "end": 1601398800000,
+    "detail": {
+      "teachingWeek": "1-11",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr W. Pang Dr M. Lones"
+    }
+  },
+  {
+    "block": {
+      "id": "F21BC-S1",
+      "title": "Biologically Inspired Computation"
+    },
+    "start": 1601398800000,
+    "end": 1601402400000,
+    "detail": {
+      "teachingWeek": "2-11",
+      "locations": [
+        "EM245",
+        "EM250",
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr M. Lones Dr W. Pang"
+    }
+  },
+  {
+    "block": {
+      "id": "F20SF-S1",
+      "title": "Software Engineering Foundations"
+    },
+    "start": 1601913600000,
+    "end": 1601917200000,
+    "detail": {
+      "teachingWeek": "1-12",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr J. Gabbay"
+    }
+  },
+  {
+    "block": {
+      "id": "F20SF-S1",
+      "title": "Software Engineering Foundations"
+    },
+    "start": 1601978400000,
+    "end": 1601982000000,
+    "detail": {
+      "teachingWeek": "2-11",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr J. Gabbay"
+    }
+  },
+  {
+    "block": {
+      "id": "F20SF-S1",
+      "title": "Software Engineering Foundations"
+    },
+    "start": 1601996400000,
+    "end": 1602000000000,
+    "detail": {
+      "teachingWeek": "1-12",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr J. Gabbay"
+    }
+  },
+  {
+    "block": {
+      "id": "F21BC-S1",
+      "title": "Biologically Inspired Computation"
+    },
+    "start": 1602000000000,
+    "end": 1602003600000,
+    "detail": {
+      "teachingWeek": "1-11",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr W. Pang Dr M. Lones"
+    }
+  },
+  {
+    "block": {
+      "id": "F21BC-S1",
+      "title": "Biologically Inspired Computation"
+    },
+    "start": 1602003600000,
+    "end": 1602007200000,
+    "detail": {
+      "teachingWeek": "2-11",
+      "locations": [
+        "EM245",
+        "EM250",
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr M. Lones Dr W. Pang"
+    }
+  },
+  {
+    "block": {
+      "id": "F20SF-S1",
+      "title": "Software Engineering Foundations"
+    },
+    "start": 1602518400000,
+    "end": 1602522000000,
+    "detail": {
+      "teachingWeek": "1-12",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr J. Gabbay"
+    }
+  },
+  {
+    "block": {
+      "id": "F20SF-S1",
+      "title": "Software Engineering Foundations"
+    },
+    "start": 1602583200000,
+    "end": 1602586800000,
+    "detail": {
+      "teachingWeek": "2-11",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr J. Gabbay"
+    }
+  },
+  {
+    "block": {
+      "id": "F20SF-S1",
+      "title": "Software Engineering Foundations"
+    },
+    "start": 1602601200000,
+    "end": 1602604800000,
+    "detail": {
+      "teachingWeek": "1-12",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr J. Gabbay"
+    }
+  },
+  {
+    "block": {
+      "id": "F21BC-S1",
+      "title": "Biologically Inspired Computation"
+    },
+    "start": 1602604800000,
+    "end": 1602608400000,
+    "detail": {
+      "teachingWeek": "1-11",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr W. Pang Dr M. Lones"
+    }
+  },
+  {
+    "block": {
+      "id": "F21BC-S1",
+      "title": "Biologically Inspired Computation"
+    },
+    "start": 1602608400000,
+    "end": 1602612000000,
+    "detail": {
+      "teachingWeek": "2-11",
+      "locations": [
+        "EM245",
+        "EM250",
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr M. Lones Dr W. Pang"
+    }
+  },
+  {
+    "block": {
+      "id": "F20SF-S1",
+      "title": "Software Engineering Foundations"
+    },
+    "start": 1603123200000,
+    "end": 1603126800000,
+    "detail": {
+      "teachingWeek": "1-12",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr J. Gabbay"
+    }
+  },
+  {
+    "block": {
+      "id": "F20SF-S1",
+      "title": "Software Engineering Foundations"
+    },
+    "start": 1603188000000,
+    "end": 1603191600000,
+    "detail": {
+      "teachingWeek": "2-11",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr J. Gabbay"
+    }
+  },
+  {
+    "block": {
+      "id": "F20SF-S1",
+      "title": "Software Engineering Foundations"
+    },
+    "start": 1603206000000,
+    "end": 1603209600000,
+    "detail": {
+      "teachingWeek": "1-12",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr J. Gabbay"
+    }
+  },
+  {
+    "block": {
+      "id": "F21BC-S1",
+      "title": "Biologically Inspired Computation"
+    },
+    "start": 1603209600000,
+    "end": 1603213200000,
+    "detail": {
+      "teachingWeek": "1-11",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr W. Pang Dr M. Lones"
+    }
+  },
+  {
+    "block": {
+      "id": "F21BC-S1",
+      "title": "Biologically Inspired Computation"
+    },
+    "start": 1603213200000,
+    "end": 1603216800000,
+    "detail": {
+      "teachingWeek": "2-11",
+      "locations": [
+        "EM245",
+        "EM250",
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr M. Lones Dr W. Pang"
+    }
+  },
+  {
+    "block": {
+      "id": "F20SF-S1",
+      "title": "Software Engineering Foundations"
+    },
+    "start": 1603728000000,
+    "end": 1603731600000,
+    "detail": {
+      "teachingWeek": "1-12",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr J. Gabbay"
+    }
+  },
+  {
+    "block": {
+      "id": "F20SF-S1",
+      "title": "Software Engineering Foundations"
+    },
+    "start": 1603792800000,
+    "end": 1603796400000,
+    "detail": {
+      "teachingWeek": "2-11",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr J. Gabbay"
+    }
+  },
+  {
+    "block": {
+      "id": "F20SF-S1",
+      "title": "Software Engineering Foundations"
+    },
+    "start": 1603810800000,
+    "end": 1603814400000,
+    "detail": {
+      "teachingWeek": "1-12",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr J. Gabbay"
+    }
+  },
+  {
+    "block": {
+      "id": "F21BC-S1",
+      "title": "Biologically Inspired Computation"
+    },
+    "start": 1603814400000,
+    "end": 1603818000000,
+    "detail": {
+      "teachingWeek": "1-11",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr W. Pang Dr M. Lones"
+    }
+  },
+  {
+    "block": {
+      "id": "F21BC-S1",
+      "title": "Biologically Inspired Computation"
+    },
+    "start": 1603818000000,
+    "end": 1603821600000,
+    "detail": {
+      "teachingWeek": "2-11",
+      "locations": [
+        "EM245",
+        "EM250",
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr M. Lones Dr W. Pang"
+    }
+  },
+  {
+    "block": {
+      "id": "F20SF-S1",
+      "title": "Software Engineering Foundations"
+    },
+    "start": 1604332800000,
+    "end": 1604336400000,
+    "detail": {
+      "teachingWeek": "1-12",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr J. Gabbay"
+    }
+  },
+  {
+    "block": {
+      "id": "F20SF-S1",
+      "title": "Software Engineering Foundations"
+    },
+    "start": 1604397600000,
+    "end": 1604401200000,
+    "detail": {
+      "teachingWeek": "2-11",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr J. Gabbay"
+    }
+  },
+  {
+    "block": {
+      "id": "F20SF-S1",
+      "title": "Software Engineering Foundations"
+    },
+    "start": 1604415600000,
+    "end": 1604419200000,
+    "detail": {
+      "teachingWeek": "1-12",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr J. Gabbay"
+    }
+  },
+  {
+    "block": {
+      "id": "F21BC-S1",
+      "title": "Biologically Inspired Computation"
+    },
+    "start": 1604419200000,
+    "end": 1604422800000,
+    "detail": {
+      "teachingWeek": "1-11",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr W. Pang Dr M. Lones"
+    }
+  },
+  {
+    "block": {
+      "id": "F21BC-S1",
+      "title": "Biologically Inspired Computation"
+    },
+    "start": 1604422800000,
+    "end": 1604426400000,
+    "detail": {
+      "teachingWeek": "2-11",
+      "locations": [
+        "EM245",
+        "EM250",
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr M. Lones Dr W. Pang"
+    }
+  },
+  {
+    "block": {
+      "id": "F20SF-S1",
+      "title": "Software Engineering Foundations"
+    },
+    "start": 1604937600000,
+    "end": 1604941200000,
+    "detail": {
+      "teachingWeek": "1-12",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr J. Gabbay"
+    }
+  },
+  {
+    "block": {
+      "id": "F20SF-S1",
+      "title": "Software Engineering Foundations"
+    },
+    "start": 1605002400000,
+    "end": 1605006000000,
+    "detail": {
+      "teachingWeek": "2-11",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr J. Gabbay"
+    }
+  },
+  {
+    "block": {
+      "id": "F20SF-S1",
+      "title": "Software Engineering Foundations"
+    },
+    "start": 1605020400000,
+    "end": 1605024000000,
+    "detail": {
+      "teachingWeek": "1-12",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr J. Gabbay"
+    }
+  },
+  {
+    "block": {
+      "id": "F21BC-S1",
+      "title": "Biologically Inspired Computation"
+    },
+    "start": 1605024000000,
+    "end": 1605027600000,
+    "detail": {
+      "teachingWeek": "1-11",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr W. Pang Dr M. Lones"
+    }
+  },
+  {
+    "block": {
+      "id": "F21BC-S1",
+      "title": "Biologically Inspired Computation"
+    },
+    "start": 1605027600000,
+    "end": 1605031200000,
+    "detail": {
+      "teachingWeek": "2-11",
+      "locations": [
+        "EM245",
+        "EM250",
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr M. Lones Dr W. Pang"
+    }
+  },
+  {
+    "block": {
+      "id": "F20SF-S1",
+      "title": "Software Engineering Foundations"
+    },
+    "start": 1605542400000,
+    "end": 1605546000000,
+    "detail": {
+      "teachingWeek": "1-12",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr J. Gabbay"
+    }
+  },
+  {
+    "block": {
+      "id": "F20SF-S1",
+      "title": "Software Engineering Foundations"
+    },
+    "start": 1605607200000,
+    "end": 1605610800000,
+    "detail": {
+      "teachingWeek": "2-11",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr J. Gabbay"
+    }
+  },
+  {
+    "block": {
+      "id": "F20SF-S1",
+      "title": "Software Engineering Foundations"
+    },
+    "start": 1605625200000,
+    "end": 1605628800000,
+    "detail": {
+      "teachingWeek": "1-12",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr J. Gabbay"
+    }
+  },
+  {
+    "block": {
+      "id": "F21BC-S1",
+      "title": "Biologically Inspired Computation"
+    },
+    "start": 1605628800000,
+    "end": 1605632400000,
+    "detail": {
+      "teachingWeek": "1-11",
+      "locations": [
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr W. Pang Dr M. Lones"
+    }
+  },
+  {
+    "block": {
+      "id": "F21BC-S1",
+      "title": "Biologically Inspired Computation"
+    },
+    "start": 1605632400000,
+    "end": 1605636000000,
+    "detail": {
+      "teachingWeek": "2-11",
+      "locations": [
+        "EM245",
+        "EM250",
+        "Online-Live"
+      ],
+      "activityType": "All Students",
+      "professor": "Dr M. Lones Dr W. Pang"
+    }
+  }
