@@ -1,6 +1,8 @@
 import * as puppeteer from 'puppeteer';
 import { getPage, releasePage } from './puppeteerProvider'
-import { Page } from 'puppeteer';
+import { Page, ElementHandle } from 'puppeteer';
+import { Dictionary } from 'ramda';
+import { parseTimelines } from './parseTimelines';
 
 const HW_URL = "https://timetable.hw.ac.uk/WebTimetables/LiveED/login.aspx";
 
@@ -31,7 +33,6 @@ const selectCoursesOption = async (page: Page, courses: string[]) => {
         }
         for (const element of courseElements) {
             await element.click();
-            console.log('one click');
         }
     }
     await page.keyboard.up('Control');
@@ -59,17 +60,25 @@ const selectWeek = async (page: Page, week: number) => {
     (await weekSelection.$(`option[value="${week.toString().padStart(2, ' ')}"]`)).click();
 }
 
-const selectTimelines = async (page: Page, courses: string[], week: number) => {
+const selectTimelines = async (page: Page, courses: string[], week: number): Promise<Course[]> => {
     await goToCourses(page);
     await selectCoursesOption(page, courses);
     await selectWeek(page, week);
-
-    await page.click('input[name="bGetTimetable"]');
-    await page.waitFor(2000);
+    await page.click('input[name="bGetTimetable"]')
+    let results: Course[] = [];
+    const limit = 1;
+    for (let i = 0; i < limit; i++) {
+        results = results.concat(await parseTimelines(page));
+        if (i + 1 < limit) {
+            await page.click('a[id="bNextWeek"]');
+            await page.waitForNavigation();
+        }
+    }
+    console.log(results);
+    return results;
 }
 
 export const getCourses = async (page: Page) => {
-    await selectTimelines(page, ['F21BC', 'F21DL'], 1);
+    await selectTimelines(page, ['F20SF-S1', 'F21BC-S1'], 1);
     await page.screenshot({ path: './out.png' });
-    await releasePage(page);
 }

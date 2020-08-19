@@ -21,7 +21,12 @@ export const getPage = async (): Promise<Page> => {
     while ((await browser.pages()).length >= maxPage) {
         await sleep(50);
     }
-    return browser.newPage();
+    const page = await browser.newPage();
+    await page.setViewport({
+        height: 1080,
+        width: 1920,
+    });
+    return page;
 }
 
 export const setMaxPage = (nb: number) => {
@@ -30,4 +35,9 @@ export const setMaxPage = (nb: number) => {
 
 export const releasePage = async (page: Page) => {
     await page.close();
+    if ((await browser.pages()).length === 0) {
+        const bcpBrowser = browser;
+        browser = null;
+        await bcpBrowser.close();
+    }
 }
