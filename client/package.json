@@ -18,6 +18,7 @@
     "@types/react-dom": "^16.9.8",
     "@types/react-redux": "^7.1.9",
     "axios": "^0.19.2",
+    "googleapis": "^39.2.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-google-button": "^0.7.1",
@@ -30,7 +31,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "update-types": "cp ../server/prisma/*.prisma ./prisma/ && cp ../server/src/services/types.ts ./src/types.ts"
   },
   "eslintConfig": {
     "extends": "react-app"

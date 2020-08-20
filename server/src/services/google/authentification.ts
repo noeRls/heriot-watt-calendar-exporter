@@ -28,6 +28,19 @@ export const authentificate = async (): Promise<OAuth2Client> => {
     return oAuth2Client;
 }
 
+export const loadAccessToken = async (accessToken: string, refreshToken?: string): Promise<OAuth2Client> => {
+    const client = new google.auth.OAuth2(process.env.SERVER_GOOGLE_CLIENT_ID, process.env.SERVER_GOOGLE_CLIENT_SECRET);
+    client.setCredentials({
+        access_token: accessToken,
+        refresh_token: refreshToken,
+    });
+    const { expiry_date } = await client.getTokenInfo(accessToken);
+    if (new Date(expiry_date).getTime() < Date.now()) {
+        throw new Error('TOKEN_EXPIRED');
+    }
+    return client
+}
+
 const askQuestion = (question: string): Promise<string> =>
     new Promise((res) => {
         const rl = readline.createInterface({

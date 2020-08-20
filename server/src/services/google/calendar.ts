@@ -1,11 +1,7 @@
-import { google } from 'googleapis';
-import { calendar_v3 } from 'googleapis/build/src/apis/calendar/v3';
-import { Course, OAuth2Client } from '../types';
-import { time } from 'console';
+import { google, calendar_v3 } from 'googleapis';
+import { Course, OAuth2Client, Calendar, Event } from '../types';
 
-export type Calendar = calendar_v3.Schema$Calendar;
 export type CalendarApi = calendar_v3.Calendar;
-export type Event = calendar_v3.Schema$Event;
 
 export function listEvents(auth: OAuth2Client) {
     const calendar = google.calendar({ version: 'v3', auth });

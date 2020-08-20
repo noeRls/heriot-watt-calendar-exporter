@@ -3,7 +3,6 @@ import * as passport from 'passport';
 import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth'
 import { prisma } from './prisma';
 import { User } from '@prisma/client';
-import { isLogged } from './middleware';
 
 const router = Router();
 
@@ -63,9 +62,5 @@ const SCOPES = ['https://www.googleapis.com/auth/calendar', 'https://www.googlea
 router.get('/auth/google', passport.authenticate('google', { scope: SCOPES }));
 
 router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login', session: true, successRedirect: `${process.env.APP_URL}` }));
-
-router.get('/me', isLogged, (req: Request, res: Response) => {
-    return res.status(200).send(req.user);
-})
 
 export default router

@@ -39,6 +39,7 @@
     "passport-google-oauth": "^2.0.0",
     "puppeteer": "^3.2.0",
     "ramda": "^0.27.1",
+    "serialize-error": "^7.0.1",
     "tslint": "^6.1.2",
     "typescript": "^3.9.3"
   },
