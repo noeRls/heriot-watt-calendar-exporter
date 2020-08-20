@@ -1,15 +1,16 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import * as passport from 'passport';
 import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth'
 import { prisma } from './prisma';
 import { User } from '@prisma/client';
+import { isLogged } from './middleware';
 
 const router = Router();
 
 passport.use(new GoogleStrategy({
     clientID: process.env.SERVER_GOOGLE_CLIENT_ID,
     clientSecret: process.env.SERVER_GOOGLE_CLIENT_SECRET,
-    callbackURL: 'http://localhost:8081'
+    callbackURL: `${process.env.API_URL}/auth/google/callback`
 }, async (accessToken, refreshToken, profile, done) => {
     try {
         let user = await prisma.user.findOne({ where: { id: profile.id } });
@@ -40,12 +41,14 @@ passport.use(new GoogleStrategy({
 }));
 
 passport.serializeUser((user: User, done) => {
+    console.log('serialize', user.id);
     done(null, user.id);
 });
 
 passport.deserializeUser(async (id: string, done) => {
     try {
-        const user = prisma.user.findOne({ where: { id }});
+        console.log('de-serialize', id);
+        const user = await prisma.user.findOne({ where: { id }});
         if (!user) {
             done(new Error('User not found'), null);
         }
@@ -56,10 +59,13 @@ passport.deserializeUser(async (id: string, done) => {
     }
 });
 
-router.get('/auth/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/calendar'] }));
+const SCOPES = ['https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile']
+router.get('/auth/google', passport.authenticate('google', { scope: SCOPES }));
 
-router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
-    return res.redirect('/');
-});
+router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login', session: true, successRedirect: `${process.env.APP_URL}` }));
+
+router.get('/me', isLogged, (req: Request, res: Response) => {
+    return res.status(200).send(req.user);
+})
 
 export default router

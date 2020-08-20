@@ -3,9 +3,10 @@ version: "3"
 
 services:
   server:
-    entrypoint: npm run-script dev
+    entrypoint: sh -c "sleep 10 && npm run-script db && npm run-script dev"
     volumes:
       - ./server/src:/app/src
+      - ./server/prisma:/app/prisma
     environment:
       STAGE: development
       COOKIES_DOMAIN: '.'

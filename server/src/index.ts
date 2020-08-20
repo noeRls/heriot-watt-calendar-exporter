@@ -1,14 +1,14 @@
 import * as express from 'express';
 import { init as initDb } from './app/prisma';
 import * as passport from 'passport';
-import * as session from 'express-session';
 import * as bodyParser from 'body-parser';
 import authentification from './app/authentification';
 import { corsMiddleware } from './app/cors';
 import * as logger from 'morgan';
+const cookieSession = require('cookie-session');
 
 const start = async () => {
-    // await initDb();
+    await initDb();
 
     const app = express();
 
@@ -16,8 +16,9 @@ const start = async () => {
     app.use(logger('dev'));
     app.use(express.static('public'));
     app.use(bodyParser.urlencoded({ extended: false }));
-    app.use(session({ secret: 'super-secret', resave: true, saveUninitialized: true, }));
+    app.use(cookieSession({ name: 'session', keys: ['super', 'secret'], axAge: 24 * 60 * 60 * 1000 }));
     app.use(passport.initialize());
+    app.use(passport.session());
 
     app.use(authentification);
     app.get('/hello', (_, res) => res.status(200).send('Hello World !'));

@@ -7,6 +7,9 @@ COPY package-lock.json package-lock.json
 
 RUN npm install
 
+COPY ./prisma ./prisma
+RUN npx prisma generate
+
 COPY . ./
 
 ARG ENV

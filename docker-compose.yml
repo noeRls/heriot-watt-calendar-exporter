@@ -13,7 +13,9 @@ services:
       SERVER_GOOGLE_CLIENT_SECRET: ${SERVER_GOOGLE_CLIENT_SECRET}
       HW_PWD: ${HW_PWD}
       HW_USERNAME: ${HW_USERNAME}
-      DATABASE_URL: postgresql://root:password@database:5432/mydb?schema=public
+      DATABASE_URL: postgresql://postgres:password@database:5432/hwexporter
+      API_URL: http://localhost:8081
+      APP_URL: http://localhost:3000
 
   client:
     build: ./client
@@ -27,6 +29,6 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: root
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: sharingcenter
+      POSTGRES_DB: hwexporter
