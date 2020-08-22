@@ -1,11 +1,17 @@
 import Axios from 'axios';
-import { User } from '@prisma/client';
+import { User, SyncRequest } from '@prisma/client';
 import { Calendar } from 'types';
 
 export const axios = Axios.create({
     baseURL: process.env.REACT_APP_API_URL,
     withCredentials: true,
 });
+
+export interface CreateSyncRequestParams {
+    calendarId: string;
+    colorId: number;
+    courses: string[];
+}
 
 export const api = {
     fetchUser: async (): Promise<User> => {
@@ -23,4 +29,14 @@ export const api = {
     logout: async (): Promise<void> => {
         await axios.post('/logout');
     },
+    createSyncRequest: async (params: CreateSyncRequestParams): Promise<SyncRequest> => {
+        const { data } = await axios.post('/syncrequest', {
+            ...params
+        });
+        return data;
+    },
+    fetchSyncRequest: async (syncRequestId: number): Promise<SyncRequest> => {
+        const { data } = await axios.get(`/syncrequest/${syncRequestId}`);
+        return data;
+    }
 }

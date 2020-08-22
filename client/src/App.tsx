@@ -5,8 +5,8 @@ import { Layout } from './comonents/Layout/Layout';
 import { Switch, Route } from 'react-router-dom';
 import { urls } from 'services/urls';
 import PrivateRoute from 'comonents/PrivateRoute';
-import { SyncRequestForm } from 'scenes/SyncRequestForm/SyncRequestForm';
-import { LoginWithGoogle } from 'scenes/Login/components/LoginWithGoogle';
+import { Home } from 'scenes/Home/Home';
+import { Login } from 'scenes/Login/Login';
 
 function App() {
   const dispatch = useDispatch();
@@ -16,8 +16,8 @@ function App() {
 
   return <Layout>
       <Switch>
-        <Route exact path={urls.login} component={LoginWithGoogle} />
-        <PrivateRoute path={urls.home} component={SyncRequestForm} />
+        <Route exact path={urls.login} component={Login} />
+        <PrivateRoute path={urls.home} component={Home} />
       </Switch>
     </Layout>
 };

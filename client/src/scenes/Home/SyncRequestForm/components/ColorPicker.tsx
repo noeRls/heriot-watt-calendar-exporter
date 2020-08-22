@@ -30,6 +30,8 @@ interface Color {
     color: string;
 }
 
+export const initialColorId = 7;
+
 export const ColorPicker = ({ onChange = () => { } }: ColorPickerProps) => {
     const style = useStyles();
     const colors: Color[] = [
@@ -53,7 +55,7 @@ export const ColorPicker = ({ onChange = () => { } }: ColorPickerProps) => {
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    defaultValue={7}
+                    defaultValue={initialColorId}
                     onChange={(e) => onChange(e.target.value as number)}
                     renderValue={(id) => {
                         const color = colors.find(color => color.id === id);

@@ -48,6 +48,7 @@ const goToCourses = async (page: Page) => {
 
 export const getCoursesOptions = async (page: Page): Promise<string[]> => {
     await goToCourses(page);
+    await page.waitFor(1000); // wait all courses to load
     const optionContainer = await page.$(COURSES_SELECTION_SELECTOR);
     const optionsElement = await optionContainer.$$('option');
     const options: string[] = [];
@@ -62,13 +63,15 @@ const selectWeek = async (page: Page, week: number) => {
     (await weekSelection.$(`option[value="${week.toString().padStart(2, ' ')}"]`)).click();
 }
 
-const selectTimelines = async (page: Page, courses: string[], week: number): Promise<Course[]> => {
+// const numberOfWeeks = 52
+const numberOfWeeks = 1;
+const selectTimelines = async (page: Page, courses: string[]): Promise<Course[]> => {
     await goToCourses(page);
     await selectCoursesOption(page, courses);
-    await selectWeek(page, week);
+    await selectWeek(page, 1);
     await page.click('input[name="bGetTimetable"]')
     let results: Course[] = [];
-    const limit = 10;
+    const limit = numberOfWeeks;
     for (let i = 0; i < limit; i++) {
         results = results.concat(await parseTimelines(page));
         if (i + 1 < limit) {
@@ -76,10 +79,10 @@ const selectTimelines = async (page: Page, courses: string[], week: number): Pro
             await page.waitFor(1000);
         }
     }
-    console.log(results);
+    console.log(`${results.length} courses grab`);
     return results;
 }
 
-export const getCourses = async (page: Page): Promise<Course[]> => {
-    return selectTimelines(page, ['F20SF-S1', 'F21BC-S1'], 1);
+export const getCourses = async (page: Page, courses: string[]): Promise<Course[]> => {
+    return selectTimelines(page, courses);
 }

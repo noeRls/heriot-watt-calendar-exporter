@@ -17,3 +17,12 @@ model Course {
   name String @id
   updatedAt DateTime @updatedAt
 }
+
+model SyncRequest {
+  id Int @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id])
+  userId String
+  coursesFound Int?
+  coursesAdded Int?
+  error String?
+}

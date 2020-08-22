@@ -123,9 +123,6 @@ const parseTable = async (table: ElementHandle, weekStart: string): Promise<Tabl
     const days = await parseDays(table);
     const results: TableCourseInfo[] = [];
 
-    console.log(hours)
-    console.log(days)
-    console.log(weekStart)
     const rowsData = rows.slice(1);
     for (let y = 0; y < rowsData.length; y++) {
         const row = rowsData[y];
@@ -138,7 +135,6 @@ const parseTable = async (table: ElementHandle, weekStart: string): Promise<Tabl
                 if (!duration) {
                     duration = 1;
                 }
-                console.log(x, y, offsetX, duration, hours[x + offsetX], hours[x + offsetX + duration], days[y]);
                 results.push({
                     ...computeDate(hours[x + offsetX], hours[x + offsetX + duration], days[y], weekStart),
                     detail: await parseCell(cell)

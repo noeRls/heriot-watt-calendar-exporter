@@ -9,10 +9,7 @@ import { Course } from './types';
 import { Page } from 'puppeteer';
 
 const main = async () => {
-    if (!process.env['HW_USERNAME'] || !process.env['HW_PWD']) {
-        throw new Error('Invalid env');
-    }
-    // const page = await login(process.env['HW_USERNAME'], process.env['HW_PWD']);
+    // const page = await login();
     // const courses = await getCourses(page);
     // await releasePage(page);
     // writeFileSync('./courses.json', JSON.stringify(courses, null, 2));

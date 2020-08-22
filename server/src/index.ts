@@ -15,7 +15,9 @@ const start = async () => {
     app.use(corsMiddleware);
     app.use(logger('dev'));
     app.use(express.static('public'));
-    app.use(bodyParser.urlencoded({ extended: false }));
+    app.use(bodyParser({
+        extended: true,
+    }));
     app.use(cookieSession({ name: 'session', keys: ['super', 'secret'], axAge: 24 * 60 * 60 * 1000 }));
     app.use(passport.initialize());
     app.use(passport.session());
