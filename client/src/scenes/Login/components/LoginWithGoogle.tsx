@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import GoogleButton from 'react-google-button';
 import { useSelector } from 'react-redux';
-import { selectAppIsLoaded, selectUser } from '../store/selector/app';
+import { selectAppIsLoaded, selectUser } from '../../../store/selector/app';
 
 export const LoginWithGoogle = () => {
     const isLoaded = useSelector(selectAppIsLoaded);

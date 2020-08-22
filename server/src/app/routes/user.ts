@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
-import { isLogged, useGoogle } from './middleware';
+import { isLogged, useGoogle } from '../middleware';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
-import { listCalendar } from '../services/google/calendar';
+import { listCalendar } from '../../services/google/calendar';
 import { User } from '@prisma/client';
 
 const router = Router();
@@ -24,6 +24,6 @@ router.get('/calendar/list', isLogged, useGoogle, async (req: Request, res: Resp
         console.error(e);
         return res.status(INTERNAL_SERVER_ERROR).end();
     }
-})
+});
 
 export default router;

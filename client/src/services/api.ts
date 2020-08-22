@@ -16,4 +16,11 @@ export const api = {
         const { data } = await axios.get('/calendar/list');
         return data;
     },
+    fetchCoursesOption: async (): Promise<string[]> => {
+        const { data } = await axios.get('/courses/list');
+        return data;
+    },
+    logout: async (): Promise<void> => {
+        await axios.post('/logout');
+    },
 }

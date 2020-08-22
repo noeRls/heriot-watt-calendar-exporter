@@ -12,3 +12,13 @@ export const selectAppIsLoaded = createSelector(
     [selectAppState],
     app => app.loaded,
 );
+
+export const selectCalendars = createSelector(
+    [selectAppState],
+    app => app.calendars,
+);
+
+export const selectCoursesOption = createSelector(
+    [selectAppState],
+    app => app.coursesOption,
+);

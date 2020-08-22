@@ -16,6 +16,8 @@ services:
       DATABASE_URL: postgresql://postgres:password@database:5432/hwexporter
       API_URL: http://localhost:8081
       APP_URL: http://localhost:3000
+    depends_on:
+      - database
 
   client:
     build: ./client

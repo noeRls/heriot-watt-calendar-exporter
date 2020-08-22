@@ -1,5 +1,5 @@
 # Node application
-FROM node:12-alpine
+FROM buildkite/puppeteer:latest
 
 WORKDIR /app
 

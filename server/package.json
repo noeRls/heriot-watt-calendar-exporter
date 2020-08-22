@@ -13,7 +13,7 @@
     "lint:fix": "tslint --fix -p .",
     "db": "npm run db:migrate && npm run db:up",
     "db:migrate": "prisma migrate save --name init --experimental",
-    "db:up": "prisma migrate up --experimental"
+    "db:up": "prisma migrate up --auto-approve --experimental"
   },
   "dependencies": {
     "@prisma/client": "^2.5.0",

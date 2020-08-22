@@ -1,6 +1,9 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -13,7 +16,8 @@ model User {
   refreshToken String?
 }
 
-model Course {
-  name String @id
+model Courses {
+  id Int @id
+  names String[]
   updatedAt DateTime @updatedAt
 }

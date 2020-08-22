@@ -1,23 +1,22 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { api } from "../../services/api";
-import { failedToFetchUser, calendarListUpdate, userUpdated } from './reducer'
 
 export const fetchUser = createAsyncThunk(
     'users/fetch',
-    async (_, { dispatch }) => {
-        try {
-            const user = await api.fetchUser()
-            dispatch(userUpdated(user));
-            const calendars = await api.fetchCalendarList();
-            dispatch(calendarListUpdate(calendars));
-        } catch (e) {
-            console.error(e);
-            dispatch(failedToFetchUser());
-        }
-    }
+    () => api.fetchUser()
 );
 
 export const fetchCalendar = createAsyncThunk(
     'users/calendar',
     () => api.fetchCalendarList()
 );
+
+export const fetchCoursesOption = createAsyncThunk(
+    'courses/list',
+    () => api.fetchCoursesOption()
+)
+
+export const logout = createAsyncThunk(
+    'users/logout',
+    () => api.logout(),
+)

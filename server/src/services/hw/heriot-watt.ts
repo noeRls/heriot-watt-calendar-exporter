@@ -48,7 +48,8 @@ const goToCourses = async (page: Page) => {
 
 export const getCoursesOptions = async (page: Page): Promise<string[]> => {
     await goToCourses(page);
-    const optionsElement = await page.$$('option');
+    const optionContainer = await page.$(COURSES_SELECTION_SELECTOR);
+    const optionsElement = await optionContainer.$$('option');
     const options: string[] = [];
     for(const optionEl of optionsElement) {
         options.push(await optionEl.evaluate(el => el.textContent));

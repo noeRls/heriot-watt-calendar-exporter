@@ -2,9 +2,8 @@ import * as express from 'express';
 import { init as initDb } from './app/prisma';
 import * as passport from 'passport';
 import * as bodyParser from 'body-parser';
-import authentification from './app/authentification';
-import userRoutes from './app/user';
-import { corsMiddleware } from './app/cors';
+import routes from './app/routes'
+import { corsMiddleware } from './app/middleware';
 import * as logger from 'morgan';
 const cookieSession = require('cookie-session');
 
@@ -21,8 +20,7 @@ const start = async () => {
     app.use(passport.initialize());
     app.use(passport.session());
 
-    app.use(authentification);
-    app.use(userRoutes);
+    routes(app);
     app.get('/hello', (_, res) => res.status(200).send('Hello World !'));
 
     app.listen(process.env.PORT, () => console.log(`Server listening on port ${process.env.PORT}...`));

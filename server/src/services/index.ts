@@ -1,11 +1,12 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
-import { getCourses, login } from './hw/heriot-watt';
+import { getCourses, login, getCoursesOptions } from './hw/heriot-watt';
 import { releasePage, getPage } from './hw/puppeteerProvider';
 import { authentificate } from './google/authentification';
 import { listCalendar, createCourses } from './google/calendar';
 import { writeFileSync, readFileSync } from 'fs';
 import { Course } from './types';
+import { Page } from 'puppeteer';
 
 const main = async () => {
     if (!process.env['HW_USERNAME'] || !process.env['HW_PWD']) {
@@ -22,4 +23,4 @@ const main = async () => {
     await createCourses(client, courses, { id: 'primary' });
 }
 
-main().catch(console.error);
+// main().catch(console.error);

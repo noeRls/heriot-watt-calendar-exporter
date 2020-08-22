@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import * as passport from 'passport';
 import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth'
-import { prisma } from './prisma';
+import { prisma } from '../prisma';
 import { User } from '@prisma/client';
 
 const router = Router();
@@ -40,13 +40,11 @@ passport.use(new GoogleStrategy({
 }));
 
 passport.serializeUser((user: User, done) => {
-    console.log('serialize', user.id);
     done(null, user.id);
 });
 
 passport.deserializeUser(async (id: string, done) => {
     try {
-        console.log('de-serialize', id);
         const user = await prisma.user.findOne({ where: { id }});
         if (!user) {
             done(new Error('User not found'), null);
