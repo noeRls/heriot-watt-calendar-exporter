@@ -1,7 +1,6 @@
 import { Router, Request, Response } from 'express';
-import { isLogged, useCoursesOption, useGoogle, useCalendar, validateMiddleware } from '../middleware';
+import { isLogged, useCoursesOption, useGoogle, useCalendar } from '../middleware';
 import { OK, INTERNAL_SERVER_ERROR } from 'http-status';
-import { IsString } from 'class-validator';
 import { deleteAllEventsCreated } from '../../services/google/calendar';
 
 const router = Router();
@@ -10,20 +9,14 @@ router.get('/courses/list', isLogged, useCoursesOption, (req: Request, res: Resp
     return res.status(OK).send(req.coursesOption);
 });
 
-class CalendarDeleteBody {
-    @IsString()
-    calendarId: string;
-}
-
-router.delete('/courses',
+router.delete('/courses/:calendarId',
     isLogged,
-    validateMiddleware(CalendarDeleteBody),
     useGoogle,
-    useCalendar(),
+    useCalendar('params'),
     async (req: Request, res: Response) => {
         try {
             const nbEventDeleted = await deleteAllEventsCreated(req.googleClient, req.calendar.id);
-            return res.status(OK).send(nbEventDeleted);
+            return res.status(OK).send({ nbEventDeleted });
         } catch (e) {
             console.error(e);
             return res.status(INTERNAL_SERVER_ERROR).end();

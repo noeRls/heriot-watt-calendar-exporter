@@ -33,6 +33,17 @@ const updateCoursesOption = async (courses: string[]): Promise<void> => {
     await Promise.all(courses.map(course => prisma.course.create({ data: { name: course } })));
 }
 
+
+const fetchCoursesOption = async (): Promise<string[]> => {
+    const minCourseThreshold = 1500;
+    let retry = 5;
+    let courses: string[] = [];
+    while (courses.length < minCourseThreshold && retry > 0) {
+        courses = await withLogin(getCoursesOptions);
+        retry -= 1;
+    }
+    return courses;
+}
 const cacheTimeForCourses = 1000 * 60 * 60 * 24 * 7; // 7days
 // const cacheTimeForCourses = 1000 * 60; // 1hr
 export const useCoursesOption = async (req: Request, res: Response, next: NextFunction) => {
@@ -40,14 +51,14 @@ export const useCoursesOption = async (req: Request, res: Response, next: NextFu
         let courses = await prisma.course.findMany();
         if (courses.length === 0) {
             console.log('courses not found fetching...');
-            req.coursesOption = await withLogin(getCoursesOptions);
+            req.coursesOption = await fetchCoursesOption();
             await updateCoursesOption(req.coursesOption);
             return next();
         }
         req.coursesOption = courses.map(course => course.name);
         if (new Date(courses[0].updatedAt).getTime() + cacheTimeForCourses < Date.now()) {
             console.log('courses out of date, refreshing...');
-            req.coursesOption = await withLogin(getCoursesOptions);
+            req.coursesOption = await fetchCoursesOption();
             console.log(req.coursesOption.length);
             await prisma.$executeRaw('DELETE FROM "Course"');
             await updateCoursesOption(req.coursesOption);

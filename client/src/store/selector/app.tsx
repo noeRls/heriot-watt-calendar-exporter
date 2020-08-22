@@ -46,3 +46,18 @@ export const selectSyncRequest = createSelector(
     [selectAppState],
     app => app.syncRequest.detail,
 );
+
+const selectSelection = createSelector(
+    [selectAppState],
+    app => app.selection,
+);
+
+export const selectCalendar = createSelector(
+    [selectCalendars, selectSelection],
+    (calendars, selection) => selection.calendarId ? calendars[selection.calendarId] : undefined,
+)
+
+export const selectSnackbar = createSelector(
+    [selectAppState],
+    app => app.snakbar,
+)

@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import GoogleButton from 'react-google-button';
 import { useSelector } from 'react-redux';
 import { selectAppIsLoaded, selectUser } from '../../../store/selector/app';
+import style from './LoginWithGoogle.module.css';
 
 export const LoginWithGoogle = () => {
     const isLoaded = useSelector(selectAppIsLoaded);
@@ -11,8 +12,12 @@ export const LoginWithGoogle = () => {
         window.open(`${process.env.REACT_APP_API_URL}/auth/google`, '_self');
     }, []);
 
-    return <GoogleButton
-        disabled={!isLoaded || Boolean(user)}
-        onClick={onClick}
-    />
+    return <div className={style.container}>
+        <div className={style.button}>
+            <GoogleButton
+                disabled={!isLoaded || Boolean(user)}
+                onClick={onClick}
+            />
+        </div>
+    </div >
 }

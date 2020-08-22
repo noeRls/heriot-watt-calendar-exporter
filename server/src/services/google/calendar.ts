@@ -125,8 +125,9 @@ export const deleteAllEventsCreated = async (auth: OAuth2Client, calendarId: str
     }
     let totalEventsDeleted = 0;
     await Promise.all(events.map(async event => {
-        if (event.summary && event.summary.includes(eventSignature)) {
+        if (event.description && event.description.includes(eventSignature)) {
             totalEventsDeleted += 1;
+            console.log('deleting: ', event.summary);
             await api.events.delete({
                 calendarId,
                 eventId: event.id,

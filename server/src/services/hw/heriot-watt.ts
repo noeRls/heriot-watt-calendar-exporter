@@ -44,11 +44,11 @@ const goToCourses = async (page: Page) => {
     await page.waitFor(COURSES_LINK_SELECTOR);
     await page.click(COURSES_LINK_SELECTOR);
     await page.waitFor(COURSES_SELECTION_SELECTOR);
+    await page.waitFor(1000); // wait everything to load
 }
 
 export const getCoursesOptions = async (page: Page): Promise<string[]> => {
     await goToCourses(page);
-    await page.waitFor(1000); // wait all courses to load
     const optionContainer = await page.$(COURSES_SELECTION_SELECTOR);
     const optionsElement = await optionContainer.$$('option');
     const options: string[] = [];

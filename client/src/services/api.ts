@@ -38,5 +38,9 @@ export const api = {
     fetchSyncRequest: async (syncRequestId: number): Promise<SyncRequest> => {
         const { data } = await axios.get(`/syncrequest/${syncRequestId}`);
         return data;
+    },
+    deleteAllEvents: async (calendarId: string): Promise<{ nbEventDeleted: number }> => {
+        const { data } = await axios.delete(`/courses/${calendarId}`)
+        return data;
     }
 }

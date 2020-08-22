@@ -2,7 +2,7 @@ import { Router, Request, Response, NextFunction } from 'express';
 import { isLogged, useCoursesOption, useGoogle, validateMiddleware, useCalendar } from '../middleware';
 import { IsString, IsNumber, Max, Min, MinLength, IsArray, ArrayMinSize } from 'class-validator';
 import { listCalendar, createCourses } from '../../services/google/calendar';
-import { BAD_REQUEST, INTERNAL_SERVER_ERROR, OK } from 'http-status';
+import { BAD_REQUEST, INTERNAL_SERVER_ERROR, OK, FORBIDDEN } from 'http-status';
 import { prisma } from '../prisma';
 import { User, SyncRequest } from '@prisma/client';
 import { getCourses } from '../../services/hw/heriot-watt';
@@ -11,6 +11,29 @@ import { serializeError } from 'serialize-error'
 import httpStatus = require('http-status');
 
 const router = Router();
+
+const useSyncRequestLimit = async (req: Request, res: Response, next: NextFunction) => {
+    const ONE_DAY_MS = 1000 * 60 * 60 * 24;
+    try {
+        const requests = await prisma.syncRequest.findMany({
+            where: {
+                AND: {
+                    userId: (req.user as User).id,
+                    createdAt: {
+                        gte: new Date(Date.now() - ONE_DAY_MS),
+                    }
+                }
+
+            }
+        });
+        if (requests.length >= 10) {
+            return res.status(FORBIDDEN).send({ code: 'RATE_LIMIT' })
+        }
+    } catch (e) {
+        console.error(e);
+        return res.status(INTERNAL_SERVER_ERROR).end();
+    }
+}
 
 class SyncRequestBody {
     @IsString()
@@ -32,6 +55,7 @@ class SyncRequestBody {
 router.post('/syncrequest',
     isLogged,
     validateMiddleware(SyncRequestBody),
+    useSyncRequestLimit,
     useGoogle,
     useCalendar(),
     useCoursesOption,

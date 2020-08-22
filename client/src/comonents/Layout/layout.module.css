@@ -1,11 +1,16 @@
 .container {
     width: 100vw;
-    height: 100vh;
     overflow: hidden;
+}
+
+.header {
+    height: 10vh;
 }
 
 .contentContainer {
     display: flex;
+    overflow-y: scroll;
+    height: 90vh
 }
 
 .contentBorder {
@@ -20,4 +25,8 @@
     padding-top: 20px;
     padding-left: 15px;
     padding-right: 15px;
+}
+
+.faq {
+    max-width: 700px;
 }

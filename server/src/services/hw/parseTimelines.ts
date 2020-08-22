@@ -118,7 +118,7 @@ const computeDate = (startTime: DayTime, endTime: DayTime, day: string, weekStar
 type TableCourseInfo = Omit<Course, 'block'>;
 const TIMELINE_BODY_SELECTOR='.grid-border-args';
 const parseTable = async (table: ElementHandle, weekStart: string): Promise<TableCourseInfo[]> => {
-    const rows = await table.$$(`${TIMELINE_BODY_SELECTOR}>tbody>tr`);
+    const rows = await table.$$(`:scope>tbody>tr`);
     const hours = await parseHoursRow(rows[0]);
     const days = await parseDays(table);
     const results: TableCourseInfo[] = [];
@@ -126,7 +126,7 @@ const parseTable = async (table: ElementHandle, weekStart: string): Promise<Tabl
     const rowsData = rows.slice(1);
     for (let y = 0; y < rowsData.length; y++) {
         const row = rowsData[y];
-        const columnsData = (await row.$$('td[style]')).slice(1);
+        const columnsData = (await row.$$(':scope > td')).slice(1);
         let offsetX = 0;
         for (let x = 0; x < columnsData.length; x++) {
             const cell = columnsData[x];
@@ -158,6 +158,7 @@ const parseTimeline = async (header: ElementHandle, table: ElementHandle): Promi
 export const parseTimelines = async (page: Page): Promise<Course[]> => {
     const TIMELINE_HEADER_SELECTOR='.header-border-args';
     await page.waitFor(TIMELINE_HEADER_SELECTOR);
+    await page.screenshot({ path: './src/out.png' })
     const headers = await page.$$(TIMELINE_HEADER_SELECTOR);
     const tables = await page.$$(TIMELINE_BODY_SELECTOR);
     let result: Course[] = [];
