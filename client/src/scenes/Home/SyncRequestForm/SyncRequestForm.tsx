@@ -39,8 +39,12 @@ export const SyncRequestForm = () => {
             <ColorPicker onChange={setColorId} />
             <Button
                 disabled={
-                    !calendar || !calendar.id || !colorId || courses.length === 0 ||
-                    syncRequestStatus === 'loading' || studentGroups.length === 0
+                    !calendar ||
+                    !calendar.id ||
+                    !colorId ||
+                    courses.length === 0 ||
+                    syncRequestStatus === 'loading' ||
+                    studentGroups.length === 0
                 }
                 variant="contained"
                 color="primary"

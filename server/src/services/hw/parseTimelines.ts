@@ -183,7 +183,7 @@ export const goToNextPage = async (page: Page): Promise<void> => {
             break;
         }
     }
-}
+};
 
 export const parseTimelines = async (page: Page): Promise<Course[]> => {
     await page.waitFor(TIMELINE_HEADER_SELECTOR);

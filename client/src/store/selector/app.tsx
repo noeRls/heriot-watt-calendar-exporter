@@ -38,4 +38,4 @@ export const selectCalendar = createSelector([selectCalendars, selectSelection],
 
 export const selectSnackbar = createSelector([selectAppState], (app) => app.snakbar);
 
-export const selectStudentGroupOptions = createSelector([selectAppState], app => app.studentGroupOptions);
+export const selectStudentGroupOptions = createSelector([selectAppState], (app) => app.studentGroupOptions);

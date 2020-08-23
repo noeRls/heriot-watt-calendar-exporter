@@ -19,7 +19,12 @@ export const StudentGroupPicker = ({ onChange = noop }: StudentGroupPickerProps)
             getOptionLabel={(option) => option}
             onChange={(_, value) => onChange(value)}
             renderInput={(params) => (
-                <TextField {...params} variant="outlined" label="Student group" placeholder="Select your student group(s)" />
+                <TextField
+                    {...params}
+                    variant="outlined"
+                    label="Student group"
+                    placeholder="Select your student group(s)"
+                />
             )}
         />
     );

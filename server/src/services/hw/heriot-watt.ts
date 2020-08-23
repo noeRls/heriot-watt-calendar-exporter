@@ -50,7 +50,7 @@ export const goToStudendGroupCoursesPage = async (page: Page) => {
     await page.click(STUEND_GROUP_COURSES_SELECTOR);
     await page.waitFor(COURSES_SELECTION_SELECTOR);
     await page.waitFor(1000); // wait everything to load
-}
+};
 
 export const getCoursesOptions = async (page: Page): Promise<string[]> => {
     const optionContainer = await page.$(COURSES_SELECTION_SELECTOR);
