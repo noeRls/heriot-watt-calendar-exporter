@@ -124,7 +124,6 @@ export const createCourses = async (
 
 export const deleteAllEventsCreated = async (auth: OAuth2Client, calendarId: string): Promise<number> => {
     const api = await getCalendarApi(auth);
-    let events: Event[] = [];
     let nextPageToken: string;
     let totalEventsDeleted = 0;
     let totalFetched = 0;
@@ -136,7 +135,7 @@ export const deleteAllEventsCreated = async (auth: OAuth2Client, calendarId: str
             pageToken: nextPageToken,
             timeMin: '2020-08-22T01:30:14.405Z',
         });
-        events = events.concat(data.items);
+        const events = data.items;
         nextPageToken = data.nextPageToken;
         for (const event of events) {
             if (event.description && event.description.includes(eventSignature)) {
@@ -153,8 +152,8 @@ export const deleteAllEventsCreated = async (auth: OAuth2Client, calendarId: str
             break;
         }
         totalFetched += events.length;
-        if (totalFetched > 50000) {
-            console.log('stopping at 50000 events');
+        if (totalFetched > 25000) {
+            console.log('stopping at 25000 events');
             break;
         }
     }
