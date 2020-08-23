@@ -170,9 +170,24 @@ const parseTimeline = async (header: ElementHandle, table: ElementHandle): Promi
     }));
 };
 
+const TIMELINE_HEADER_SELECTOR='.header-border-args';
+export const goToNextPage = async (page: Page): Promise<void> => {
+    const oldHeader = await page.$(TIMELINE_HEADER_SELECTOR);
+    const { weekStart: oldWeekStart } = await parseHeader(oldHeader);
+    await page.waitFor('a[id="bNextWeek"]');
+    await page.click('a[id="bNextWeek"]');
+    while (true) {
+        await page.waitFor(TIMELINE_HEADER_SELECTOR);
+        const { weekStart } = await parseHeader(await page.$(TIMELINE_HEADER_SELECTOR));
+        if (weekStart !== oldWeekStart) {
+            break;
+        }
+    }
+}
+
 export const parseTimelines = async (page: Page): Promise<Course[]> => {
-    const TIMELINE_HEADER_SELECTOR='.header-border-args';
     await page.waitFor(TIMELINE_HEADER_SELECTOR);
+    await page.waitFor(100);
     const headers = await page.$$(TIMELINE_HEADER_SELECTOR);
     const tables = await page.$$(TIMELINE_BODY_SELECTOR);
     let result: Course[] = [];

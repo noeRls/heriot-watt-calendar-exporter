@@ -68,7 +68,7 @@ export const SyncRequestTimeline = () => {
         const fetchIt = () => {
             dispatch(fetchSyncRequest(syncRequest.id));
         };
-        const interval = setInterval(fetchIt, 10 * 1000);
+        const interval = setInterval(fetchIt, 5 * 1000);
         return () => clearInterval(interval);
     }, [syncRequestStatus, syncRequest, dispatch]);
 
@@ -78,12 +78,12 @@ export const SyncRequestTimeline = () => {
             expr: syncRequestStatus !== 'none' && syncRequest,
         },
         {
-            name: 'Fetch your courses timeline (~5min)',
+            name: 'Fetch your courses timeline (~1min)',
             expr: syncRequest && syncRequest.coursesFound !== null,
             finalText: (syncRequest: SyncRequest) => `${syncRequest.coursesFound} courses fetched`,
         },
         {
-            name: 'Add courses to your calendar (~2min)',
+            name: 'Add courses to your calendar (~1min)',
             expr: syncRequest && syncRequest.coursesAdded !== null,
             finalText: (syncRequest: SyncRequest) => `${syncRequest.coursesAdded} courses added to your calendar`,
         },

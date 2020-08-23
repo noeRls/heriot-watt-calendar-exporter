@@ -29,7 +29,8 @@ export const getPage = async (): Promise<Page> => {
     while ((await browser.pages()).length >= maxPage) {
         await sleep(50);
     }
-    const page = await browser.newPage();
+    const context = await browser.createIncognitoBrowserContext();
+    const page = await context.newPage();
     await page.setViewport({
         height: 1080,
         width: 1920,
@@ -42,7 +43,9 @@ export const setMaxPage = (nb: number) => {
 };
 
 export const releasePage = async (page: Page) => {
+    const context = await page.browserContext();
     await page.close();
+    await context.close();
     pageNb -= 1;
     if (browser && pageNb === 0) {
         const bcpBrowser = browser;

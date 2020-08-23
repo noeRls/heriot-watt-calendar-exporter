@@ -2,7 +2,7 @@ import * as puppeteer from 'puppeteer';
 import { getPage, releasePage } from './puppeteerProvider';
 import { Page, ElementHandle } from 'puppeteer';
 import { Dictionary } from 'ramda';
-import { parseTimelines } from './parseTimelines';
+import { parseTimelines, goToNextPage } from './parseTimelines';
 import { Course } from '../types';
 
 const HW_URL = "https://timetable.hw.ac.uk/WebTimetables/LiveED/login.aspx";
@@ -74,15 +74,12 @@ const selectTimelines = async (page: Page, courses: string[], studentGroups: str
     await selectCoursesOption(page, studentGroups);
     await selectWeek(page, 1);
     await page.click('input[name="bGetTimetable"]');
-    await page.waitFor(4000);
     let results: Course[] = [];
     const limit = numberOfWeeks;
     for (let i = 0; i < limit; i++) {
         results = results.concat(await parseTimelines(page));
         if (i + 1 < limit) {
-            await page.waitFor('a[id="bNextWeek"]');
-            await page.click('a[id="bNextWeek"]');
-            await page.waitFor(2000);
+            await goToNextPage(page);
         }
     }
     const coursesCodeDic = courses.reduce<Record<string, string>>((acc, course) => {
