@@ -91,7 +91,6 @@ const selectTimelines = async (page: Page, courses: string[], studentGroups: str
         return acc;
     }, {});
     console.log(`${results.length} courses grab`);
-    console.log(results, coursesCodeDic);
     results = results.filter(result => {
         const courseName = coursesCodeDic[result.detail.code];
         if (courseName) {
