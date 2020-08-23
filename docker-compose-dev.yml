@@ -3,6 +3,8 @@ version: "3"
 
 services:
   server:
+    ports:
+      - "8081:8081"
     entrypoint: sh -c "sleep 10 && npm run-script db && npm run-script dev"
     volumes:
       - ./server/src:/app/src
@@ -12,6 +14,8 @@ services:
       RATE_LIMIT_REQUEST: 10000
 
   client:
+    ports:
+      - "3000:3000"
     stdin_open: true
     environment:
       NODE_ENV: development
@@ -19,3 +23,7 @@ services:
     volumes:
       - ./client/src:/app/src
       - ./client/public:/app/public
+
+  database:
+    ports:
+      - "5432:5432"

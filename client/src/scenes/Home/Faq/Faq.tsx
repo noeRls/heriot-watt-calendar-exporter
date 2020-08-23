@@ -78,7 +78,7 @@ export const Faq = () => {
                     </span>
                     {linkToGithub}
                 </>,
-                'Google will automatically remove our access to your agenda after a week to so if you do not connect to this website.',
+                'Google will automatically remove our access to your agenda after a week ro so if you do not connect to this website.',
             ],
         },
         {
@@ -91,8 +91,8 @@ export const Faq = () => {
         {
             title: 'Can I re-run a synchronisation?',
             messages: [
-                'Yes, we are detecting the courses that are already in your agenda, we will not create it again if it exists.',
-                'If for any reason some courses are duplicated you can always remove all of them thanks to the option above and re-run a synchronisation',
+                'Yes, we are detecting the courses that are already in your agenda, we will not create them again if they exists.',
+                'If for some reason courses are duplicated or new courses are not being sync-up, remove all of them thanks to the option above and re-run a synchronisation.',
             ],
         },
         {

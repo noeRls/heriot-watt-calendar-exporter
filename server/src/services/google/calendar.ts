@@ -53,6 +53,7 @@ Professor: ${course.detail.professor}
 Teaching week: ${course.detail.teachingWeek}
 
 ${eventSignature}
+https://hw.box.noerls.com
 `;
 
 /**
@@ -85,11 +86,18 @@ const createCourse = async (api: CalendarApi, course: Course, calendar: Calendar
     });
 };
 
-const scotlandUTCDiff = 60 * 60 * 1000; // ms
+const scotlandSummerWinterDiff = 60 * 60 * 1000; // ms
+const isSameTime = (timeOne: number, timeTwo: number) => {
+    if (Math.abs(timeOne - timeTwo) <= scotlandSummerWinterDiff) {
+        return true;
+    }
+    return false;
+}
+
 const courseExist = (events: Event[], course: Course): boolean =>
     events.some(event => event.summary === course.block.title &&
-        new Date(event.start.dateTime).getTime() === course.start - scotlandUTCDiff &&
-        new Date(event.end.dateTime).getTime() === course.end - scotlandUTCDiff,
+        isSameTime(new Date(event.start.dateTime).getTime(), course.start) &&
+        isSameTime(new Date(event.end.dateTime).getTime(),  course.end)
     );
 
 export const createCourses = async (
@@ -107,6 +115,7 @@ export const createCourses = async (
     const events = await loadEventsBetweenTime(api, calendar, Math.min(...allTimes), Math.max(...allTimes));
     const newCourses = courses.filter(course => !courseExist(events, course));
     for (const course of newCourses) {
+        console.log(`Creating course: ${course.block.id} - ${timestampToDateWithTz(course.start).dateTime} -> ${timestampToDateWithTz(course.end).dateTime}`);
         await createCourse(api, course, calendar, colorId);
         await sleep(50);
     }
@@ -117,32 +126,37 @@ export const deleteAllEventsCreated = async (auth: OAuth2Client, calendarId: str
     const api = await getCalendarApi(auth);
     let events: Event[] = [];
     let nextPageToken: string;
+    let totalEventsDeleted = 0;
+    let totalFetched = 0;
     while (true) {
         const { data } = await api.events.list({
             calendarId,
             maxResults: 2500,
             orderBy: 'updated',
             pageToken: nextPageToken,
+            timeMin: '2020-08-22T01:30:14.405Z'
         });
         events = events.concat(data.items);
         nextPageToken = data.nextPageToken;
+        for (const event of events) {
+            if (event.description && event.description.includes(eventSignature)) {
+                console.log('deleting: ', event.summary);
+                await api.events.delete({
+                    calendarId,
+                    eventId: event.id,
+                });
+                await sleep(50);
+                totalEventsDeleted += 1;
+            }
+        }
         if (!nextPageToken) {
             break;
         }
-        if (events.length > 10000) {
-            console.log('stopping at 10000 events');
+        totalFetched += events.length;
+        if (totalFetched > 50000) {
+            console.log('stopping at 50000 events');
             break;
         }
-    }
-    let totalEventsDeleted = 0;
-    for (const event of events) {
-        console.log('deleting: ', event.summary);
-        await api.events.delete({
-            calendarId,
-            eventId: event.id,
-        });
-        await sleep(50);
-        totalEventsDeleted += 1;
     }
     return totalEventsDeleted;
 };

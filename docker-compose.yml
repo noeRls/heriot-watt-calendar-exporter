@@ -4,8 +4,6 @@ services:
   server:
     build: ./server
     restart: unless-stopped
-    ports:
-      - "8081:8081"
     environment:
       PORT: 8081
       CORS: all
@@ -21,15 +19,11 @@ services:
 
   client:
     build: ./client
-    ports:
-      - "3000:3000"
     environment:
       REACT_APP_API_URL: http://localhost:8081
 
   database:
     image: postgres:latest
-    ports:
-      - "5432:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
