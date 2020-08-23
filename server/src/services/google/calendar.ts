@@ -8,7 +8,9 @@ const getCalendarApi = async (auth: OAuth2Client): Promise<CalendarApi> => googl
 
 export const listCalendar = async (auth: OAuth2Client): Promise<Calendar[]> => {
     const api = await getCalendarApi(auth);
-    const { data } = await api.calendarList.list();
+    const { data } = await api.calendarList.list({
+        minAccessRole: 'writer',
+    });
     return data.items;
 };
 
