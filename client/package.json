@@ -44,7 +44,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint . --ext js,ts,tsx,jsx",
     "lint:fix": "eslint . --ext js,ts,tsx,jsx --fix",
-    "update-types": "cp ../server/prisma/*.prisma ./prisma/ && cp ../server/src/services/types.ts ./src/types.ts"
+    "update-types": "cp ../server/prisma/*.prisma ./prisma/ && cp ../server/src/services/types.ts ./src/types.ts && cp -r ../server/generated ./src/"
   },
   "eslintConfig": {
     "extends": "react-app"

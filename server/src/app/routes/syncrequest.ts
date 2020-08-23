@@ -1,5 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { isLogged, useCoursesOption, useGoogle, validateMiddleware, useCalendar } from '../middleware';
+import { isLogged, useGoogle, validateMiddleware, useCalendar } from '../middleware';
 import { IsString, IsNumber, Max, Min, IsArray, ArrayMinSize } from 'class-validator';
 import { createCourses } from '../../services/google/calendar';
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR, OK, FORBIDDEN } from 'http-status';
@@ -9,6 +9,7 @@ import { getCourses } from '../../services/hw/heriot-watt';
 import { withLogin } from '../../services/utils';
 import { serializeError } from 'serialize-error';
 import httpStatus = require('http-status');
+import { useStudentGroupOptions, useCourseOptions } from '../middleware/options';
 
 const router = Router();
 
@@ -54,6 +55,13 @@ class SyncRequestBody {
     @IsArray()
     @ArrayMinSize(1)
     courses: string[];
+
+    @IsString({
+        each: true,
+    })
+    @IsArray()
+    @ArrayMinSize(1)
+    studentGroups: string[];
 }
 
 router.post('/syncrequest',
@@ -62,16 +70,16 @@ router.post('/syncrequest',
     useSyncRequestLimit,
     useGoogle,
     useCalendar(),
-    useCoursesOption,
+    useCourseOptions,
+    useStudentGroupOptions,
     async (req: Request, res: Response) => {
-    const { courses, colorId } = req.body as SyncRequestBody;
+    const { courses, colorId, studentGroups } = req.body as SyncRequestBody;
     const { calendar } = req;
-    const courseDic = req.coursesOption.reduce<Record<string, boolean>>((map, obj) => {
-        map[obj] = true;
-        return map;
-    }, {});
-    if (courses.some(course => !courseDic[course])) {
+    if (courses.some(course => !req.coursesOption[course])) {
         return res.status(BAD_REQUEST).send('Invalid courses');
+    }
+    if (studentGroups.some(studentGroup => req.studentGroupsOption[studentGroup])) {
+        return res.status(BAD_REQUEST).send('Invalid student group');
     }
 
     let syncRequest: SyncRequest;
@@ -92,7 +100,7 @@ router.post('/syncrequest',
     }
 
     try {
-        const coursesFound = await withLogin(page => getCourses(page, courses));
+        const coursesFound = await withLogin(page => getCourses(page, courses, studentGroups));
         await prisma.syncRequest.update({
             where: { id: syncRequest.id },
             data: { coursesFound: coursesFound.length },

@@ -1,11 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { UNAUTHORIZED, INTERNAL_SERVER_ERROR, BAD_REQUEST } from 'http-status';
-import { User, Course } from '@prisma/client';
-import { google } from 'googleapis';
+import { User } from '@prisma/client';
 import { loadAccessToken } from '../../services/google/authentification';
-import { prisma } from '../prisma';
-import { withLogin } from '../../services/utils';
-import { getCoursesOptions } from '../../services/hw/heriot-watt';
 import { plainToClass } from 'class-transformer';
 import * as classValidator from 'class-validator';
 import { ClassType } from 'class-transformer/ClassTransformer';
@@ -26,47 +22,6 @@ export const useGoogle = async (req: Request, res: Response, next: NextFunction)
         return next();
     } catch (e) {
         return res.status(UNAUTHORIZED).send('Token expired');
-    }
-};
-
-const updateCoursesOption = async (courses: string[]): Promise<void> => {
-    await Promise.all(courses.map(course => prisma.course.create({ data: { name: course } })));
-};
-
-
-const fetchCoursesOption = async (): Promise<string[]> => {
-    const minCourseThreshold = 1500;
-    let retry = 5;
-    let courses: string[] = [];
-    while (courses.length < minCourseThreshold && retry > 0) {
-        courses = await withLogin(getCoursesOptions);
-        retry -= 1;
-    }
-    console.log(`fecthed ${courses.length} courses options`);
-    return courses;
-};
-const cacheTimeForCourses = 1000 * 60 * 60 * 24 * 7; // 7days
-// const cacheTimeForCourses = 1000 * 60; // 1hr
-export const useCoursesOption = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const courses = await prisma.course.findMany({ take: 100000 });
-        if (courses.length === 0) {
-            console.log('courses not found fetching...');
-            req.coursesOption = await fetchCoursesOption();
-            await updateCoursesOption(req.coursesOption);
-            return next();
-        }
-        req.coursesOption = courses.map(course => course.name);
-        if (new Date(courses[0].updatedAt).getTime() + cacheTimeForCourses < Date.now()) {
-            console.log('courses out of date, refreshing...');
-            req.coursesOption = await fetchCoursesOption();
-            await prisma.$executeRaw('DELETE FROM "Course"');
-            await updateCoursesOption(req.coursesOption);
-        }
-        return next();
-    } catch (e) {
-        console.error(e);
-        return res.status(INTERNAL_SERVER_ERROR).end();
     }
 };
 
@@ -102,3 +57,5 @@ export const useCalendar = (where: 'body' | 'query' | 'params' = 'body') =>
         return res.status(INTERNAL_SERVER_ERROR).end();
     }
 };
+
+

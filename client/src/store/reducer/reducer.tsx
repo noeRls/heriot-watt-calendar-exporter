@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User, SyncRequest } from '@prisma/client';
 import { Calendar } from 'types';
-import coursesOptionDefault from './coursesOption.json';
-import { fetchCalendar, fetchCoursesOption, fetchUser, logout, createSyncRequest, fetchSyncRequest } from './thunks';
+import coursesOption from 'generated/coursesOption.json';
+import studentGroupOptions from 'generated/studentGroups.json';
+import { fetchCalendar, fetchUser, logout, createSyncRequest, fetchSyncRequest } from './thunks';
 import { AlertProps } from '@material-ui/lab';
 
 export interface AppSliceState {
@@ -10,6 +11,7 @@ export interface AppSliceState {
     loaded: boolean;
     calendars: Record<string, Calendar>;
     coursesOption: string[];
+    studentGroupOptions: string[];
     syncRequest: {
         status: 'none' | 'loading' | 'error' | 'done';
         detail?: SyncRequest;
@@ -27,8 +29,9 @@ export interface AppSliceState {
 const initialState: AppSliceState = {
     loaded: false,
     calendars: {},
+    studentGroupOptions,
     syncRequest: { status: 'none' },
-    coursesOption: coursesOptionDefault,
+    coursesOption,
     selection: {},
     snakbar: {
         open: false,
@@ -94,13 +97,6 @@ export const appSlice = createSlice({
             state.user = undefined;
             console.error(action.error);
             setSnackbarMessage(state, 'Failed to contact the server on logout', 'info');
-        });
-
-        builder.addCase(fetchCoursesOption.fulfilled, (state, action) => {
-            state.coursesOption = action.payload;
-        });
-        builder.addCase(fetchCoursesOption.rejected, (_, action) => {
-            console.error(action.error);
         });
 
         builder.addCase(createSyncRequest.pending, (state) => {

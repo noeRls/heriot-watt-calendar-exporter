@@ -13,11 +13,6 @@ model User {
   refreshToken String?
 }
 
-model Course {
-  name String @id
-  updatedAt DateTime @updatedAt
-}
-
 model SyncRequest {
   id Int @id @default(autoincrement())
   user User @relation(fields: [userId], references: [id])
