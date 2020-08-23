@@ -15,12 +15,6 @@ export const login = async (): Promise<Page> => {
     await page.waitFor(GUEST_LOGIN_BUTTON);
     await page.click(GUEST_LOGIN_BUTTON);
 
-    // const INPUT_USERNAME_SELECTOR='input[name="tUserName"]';
-    // const INPUT_PASSWORD_SELECTOR='input[name="tPassword"]';
-    // await page.waitFor(INPUT_USERNAME_SELECTOR);
-    // await page.$eval(INPUT_USERNAME_SELECTOR, (el, value) => el.value = value, username);
-    // await page.$eval(INPUT_PASSWORD_SELECTOR, (el, value) => el.value = value, password);
-    // await page.click('input[name="bLogin"]');
     return page;
 };
 
@@ -42,7 +36,7 @@ const selectCoursesOption = async (page: Page, courses: string[]) => {
     await page.keyboard.up('Control');
 };
 
-const goToCourses = async (page: Page) => {
+export const goToRowCoursesPage = async (page: Page) => {
     const COURSES_LINK_SELECTOR = 'a[id="LinkBtn_modules"]';
     await page.waitFor(COURSES_LINK_SELECTOR);
     await page.click(COURSES_LINK_SELECTOR);
@@ -50,8 +44,15 @@ const goToCourses = async (page: Page) => {
     await page.waitFor(1000); // wait everything to load
 };
 
+export const goToStudendGroupCoursesPage = async (page: Page) => {
+    const STUEND_GROUP_COURSES_SELECTOR = 'a[id="LinkBtn_studentsets"]';
+    await page.waitFor(STUEND_GROUP_COURSES_SELECTOR);
+    await page.click(STUEND_GROUP_COURSES_SELECTOR);
+    await page.waitFor(COURSES_SELECTION_SELECTOR);
+    await page.waitFor(1000); // wait everything to load
+}
+
 export const getCoursesOptions = async (page: Page): Promise<string[]> => {
-    await goToCourses(page);
     const optionContainer = await page.$(COURSES_SELECTION_SELECTOR);
     const optionsElement = await optionContainer.$$('option');
     const options: string[] = [];
@@ -68,9 +69,9 @@ const selectWeek = async (page: Page, week: number) => {
 
 const numberOfWeeks = 52;
 // const numberOfWeeks = 3;
-const selectTimelines = async (page: Page, courses: string[]): Promise<Course[]> => {
-    await goToCourses(page);
-    await selectCoursesOption(page, courses);
+const selectTimelines = async (page: Page, courses: string[], studentGroups: string[]): Promise<Course[]> => {
+    await goToStudendGroupCoursesPage(page);
+    await selectCoursesOption(page, studentGroups);
     await selectWeek(page, 1);
     await page.click('input[name="bGetTimetable"]');
     await page.waitFor(4000);
@@ -84,10 +85,16 @@ const selectTimelines = async (page: Page, courses: string[]): Promise<Course[]>
             await page.waitFor(2000);
         }
     }
+    const coursesDic = courses.reduce<Record<string, boolean>>((acc, course) => {
+        acc[course] = true;
+        return acc;
+    }, {});
     console.log(`${results.length} courses grab`);
+    results = results.filter(result => coursesDic[result.block.id]);
+    console.log(`${results.length} selected`);
     return results;
 };
 
-export const getCourses = async (page: Page, courses: string[]): Promise<Course[]> => {
-    return selectTimelines(page, courses);
+export const getCourses = async (page: Page, courses: string[], studentGroups: string[]): Promise<Course[]> => {
+    return selectTimelines(page, courses, studentGroups);
 };

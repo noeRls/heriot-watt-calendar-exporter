@@ -1,16 +1,16 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { selectCoursesOption } from 'store/selector/app';
+import { selectStudentGroupOptions } from 'store/selector/app';
 import { Autocomplete } from '@material-ui/lab';
 import { TextField } from '@material-ui/core';
 import { noop } from 'services/utils';
 
-interface CoursesPickerProps {
-    onChange?: (courses: string[]) => void;
+interface StudentGroupPickerProps {
+    onChange?: (studentGroup: string[]) => void;
 }
 
-export const CoursesPicker = ({ onChange = noop }: CoursesPickerProps) => {
-    const options = useSelector(selectCoursesOption);
+export const StudentGroupPicker = ({ onChange = noop }: StudentGroupPickerProps) => {
+    const options = useSelector(selectStudentGroupOptions);
     return (
         <Autocomplete
             multiple
@@ -19,7 +19,7 @@ export const CoursesPicker = ({ onChange = noop }: CoursesPickerProps) => {
             getOptionLabel={(option) => option}
             onChange={(_, value) => onChange(value)}
             renderInput={(params) => (
-                <TextField {...params} variant="outlined" label="Courses" placeholder="Select your courses" />
+                <TextField {...params} variant="outlined" label="Student group" placeholder="Select your student group(s)" />
             )}
         />
     );

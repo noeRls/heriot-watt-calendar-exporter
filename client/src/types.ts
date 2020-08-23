@@ -5,6 +5,7 @@ export type Credentials = typeof google.auth.OAuth2.prototype.credentials;
 export type Calendar = calendar_v3.Schema$Calendar;
 export type Event = calendar_v3.Schema$Event;
 
+
 export interface Block {
     title: string;
     id: string;

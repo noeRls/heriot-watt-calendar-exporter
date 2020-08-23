@@ -11,6 +11,7 @@ export interface CreateSyncRequestParams {
     calendarId: string;
     colorId: number;
     courses: string[];
+    studentGroups: string[];
 }
 
 export const api = {
