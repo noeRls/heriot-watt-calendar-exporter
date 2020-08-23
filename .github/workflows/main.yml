@@ -10,12 +10,14 @@ jobs:
     - run: docker-compose build
     - name: Build the prod docker-compose
       run: docker-compose -f docker-compose.yml -f docker-compose-prod.yml build
+    - name: tag client
+      run: docker build -t client ./client
     - name: Lint client
-      working-directory: ./client
-      run: docker run . --entrypoint=npm run-script lint
+      run: docker run --entrypoint=npm client run-script lint
+    - name: tag server
+      run: docker build -t server ./server
     - name: Lint server
-      working-directory: ./server
-      run: docker run . --entrypoint=npm run-script lint
+      run: docker run --entrypoint=npm server run-script lint
 
 #  deploy:
 #    needs: build

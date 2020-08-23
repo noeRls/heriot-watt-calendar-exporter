@@ -13,7 +13,7 @@ import httpStatus = require('http-status');
 const router = Router();
 
 if (!process.env.RATE_LIMIT_REQUEST || Number.isNaN(Number(process.env.RATE_LIMIT_REQUEST))) {
-    console.error('Misssing RATE_LIMIT_REQUEST env variable')
+    console.error('Misssing RATE_LIMIT_REQUEST env variable');
 }
 const useSyncRequestLimit = async (req: Request, res: Response, next: NextFunction) => {
     const ONE_DAY_MS = 1000 * 60 * 60 * 24;

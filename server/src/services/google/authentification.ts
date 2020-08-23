@@ -11,5 +11,5 @@ export const loadAccessToken = async (accessToken: string, refreshToken?: string
     if (new Date(expiry_date).getTime() < Date.now()) {
         throw new Error('TOKEN_EXPIRED');
     }
-    return client
-}
+    return client;
+};

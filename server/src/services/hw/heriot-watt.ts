@@ -13,7 +13,7 @@ export const login = async (): Promise<Page> => {
 
     const GUEST_LOGIN_BUTTON = 'input[name="bGuestLogin"]';
     await page.waitFor(GUEST_LOGIN_BUTTON);
-    await page.click(GUEST_LOGIN_BUTTON)
+    await page.click(GUEST_LOGIN_BUTTON);
 
     // const INPUT_USERNAME_SELECTOR='input[name="tUserName"]';
     // const INPUT_PASSWORD_SELECTOR='input[name="tPassword"]';

@@ -92,12 +92,12 @@ const isSameTime = (timeOne: number, timeTwo: number) => {
         return true;
     }
     return false;
-}
+};
 
 const courseExist = (events: Event[], course: Course): boolean =>
     events.some(event => event.summary === course.block.title &&
         isSameTime(new Date(event.start.dateTime).getTime(), course.start) &&
-        isSameTime(new Date(event.end.dateTime).getTime(),  course.end)
+        isSameTime(new Date(event.end.dateTime).getTime(),  course.end),
     );
 
 export const createCourses = async (
@@ -134,7 +134,7 @@ export const deleteAllEventsCreated = async (auth: OAuth2Client, calendarId: str
             maxResults: 2500,
             orderBy: 'updated',
             pageToken: nextPageToken,
-            timeMin: '2020-08-22T01:30:14.405Z'
+            timeMin: '2020-08-22T01:30:14.405Z',
         });
         events = events.concat(data.items);
         nextPageToken = data.nextPageToken;
