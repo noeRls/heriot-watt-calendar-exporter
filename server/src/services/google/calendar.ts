@@ -45,12 +45,11 @@ const loadEventsBetweenTime = async (
 const eventSignature = 'heriot watt calendar exporter';
 const buildCourseDescription = (course: Course): string =>
 `
-${course.block.id} - ${course.block.title}
-Title: ${course.detail.title}
 Activity type: ${course.detail.activityType}
 Code: ${course.detail.code}
 Professor: ${course.detail.professor}
 Teaching week: ${course.detail.teachingWeek}
+Student group: ${course.block.title}
 
 ${eventSignature}
 https://hw.box.noerls.com
@@ -78,7 +77,7 @@ const createCourse = async (api: CalendarApi, course: Course, calendar: Calendar
 
             },
             start: timestampToDateWithTz(course.start),
-            summary: course.block.title,
+            summary: course.detail.title,
             location: course.detail.locations.join(', '),
             description: buildCourseDescription(course),
             colorId,
@@ -95,7 +94,7 @@ const isSameTime = (timeOne: number, timeTwo: number) => {
 };
 
 const courseExist = (events: Event[], course: Course): boolean =>
-    events.some(event => event.summary === course.block.title &&
+    events.some(event => event.summary === course.detail.title &&
         isSameTime(new Date(event.start.dateTime).getTime(), course.start) &&
         isSameTime(new Date(event.end.dateTime).getTime(),  course.end),
     );
@@ -115,7 +114,7 @@ export const createCourses = async (
     const events = await loadEventsBetweenTime(api, calendar, Math.min(...allTimes), Math.max(...allTimes));
     const newCourses = courses.filter(course => !courseExist(events, course));
     for (const course of newCourses) {
-        console.log(`Creating course: ${course.block.id} - ${timestampToDateWithTz(course.start).dateTime} -> ${timestampToDateWithTz(course.end).dateTime}`);
+        console.log(`Creating course: ${course.detail.title} - ${timestampToDateWithTz(course.start).dateTime} -> ${timestampToDateWithTz(course.end).dateTime}`);
         await createCourse(api, course, calendar, colorId);
         await sleep(50);
     }

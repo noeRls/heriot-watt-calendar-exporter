@@ -68,7 +68,7 @@ const selectWeek = async (page: Page, week: number) => {
 };
 
 const numberOfWeeks = 52;
-// const numberOfWeeks = 3;
+// const numberOfWeeks = 1;
 const selectTimelines = async (page: Page, courses: string[], studentGroups: string[]): Promise<Course[]> => {
     await goToStudendGroupCoursesPage(page);
     await selectCoursesOption(page, studentGroups);
@@ -85,12 +85,21 @@ const selectTimelines = async (page: Page, courses: string[], studentGroups: str
             await page.waitFor(2000);
         }
     }
-    const coursesDic = courses.reduce<Record<string, boolean>>((acc, course) => {
-        acc[course] = true;
+    const coursesCodeDic = courses.reduce<Record<string, string>>((acc, course) => {
+        const [code, name] = course.split(' - ');
+        acc[code] = name;
         return acc;
     }, {});
     console.log(`${results.length} courses grab`);
-    results = results.filter(result => coursesDic[result.block.id]);
+    console.log(results, coursesCodeDic);
+    results = results.filter(result => {
+        const courseName = coursesCodeDic[result.detail.code];
+        if (courseName) {
+            result.detail.title = courseName;
+            return true;
+        }
+        return false;
+    });
     console.log(`${results.length} selected`);
     return results;
 };

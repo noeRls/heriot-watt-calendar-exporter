@@ -29,7 +29,7 @@ export const SyncRequestForm = () => {
                 studentGroups,
             }),
         );
-    }, [calendar, courses, colorId, dispatch]);
+    }, [calendar, courses, colorId, dispatch, studentGroups]);
 
     return (
         <div className={style.formItemContainer}>

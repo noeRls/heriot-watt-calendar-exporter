@@ -2,7 +2,7 @@ import * as puppeteer from 'puppeteer';
 import { getPage, releasePage } from './puppeteerProvider';
 import { Page, ElementHandle } from 'puppeteer';
 import { Dictionary, last } from 'ramda';
-import { Block, CourseDetail, Course } from '../types';
+import { StudentGroup, CourseDetail, Course } from '../types';
 
 interface DayTime {
     hour: number;
@@ -21,12 +21,11 @@ const extractText = async (selector: string, element?: ElementHandle): Promise<s
 };
 
 const parseHeader = async (header: ElementHandle): Promise<{
-    block: Block,
+    block: StudentGroup,
     weekStart: string;
 }> => {
-    const block: Block = {
-        id: await extractText('.header-1-1-0', header),
-        title: await extractText('.header-1-1-2', header),
+    const block: StudentGroup = {
+        title: await extractText('.header-1-1-0', header),
     };
     const week = await extractText('.header-2-2-3', header);
     if (!week) {
@@ -70,20 +69,33 @@ const parseDays = async (table: ElementHandle): Promise<string[]> => {
     const days: string[] = [];
     for (const dayElement of daysElement) {
         const timeText = await dayElement.evaluate(el => el.textContent);
-        days.push(timeText);
+        let size: number = Number(await dayElement.evaluate(el => el.getAttribute('rowspan')));
+        if (!size) {
+            size = 1;
+        }
+        for (let i = 0; i < size; i++) {
+            days.push(timeText);
+        }
     }
     return days;
 };
 
 const parseCell = async (cell: ElementHandle): Promise<CourseDetail> => {
     const lines = await cell.$$('table');
+    const code = await extractText('td[align="left"]', lines[0]);
+    if (!code) {
+        console.warn('Failed to extract course code');
+    }
     const teachingWeek = await extractText('td[align="center"]', lines[0]);
     const locationString = await extractText('td[align="right"]', lines[0]);
     const locations = locationString ? locationString.split(';').map(w => w.replace(/\s/g, '')) : [];
     const activityType = await extractText('td[align="right"]', lines[2]);
+    const title = await extractText('td[align="center"]', lines[1]);
     const professor = await extractText('td[align="left"]', lines[2]);
     return {
+        code,
         teachingWeek,
+        title,
         locations,
         activityType,
         professor,
@@ -126,7 +138,10 @@ const parseTable = async (table: ElementHandle, weekStart: string): Promise<Tabl
     const rowsData = rows.slice(1);
     for (let y = 0; y < rowsData.length; y++) {
         const row = rowsData[y];
-        const columnsData = (await row.$$(':scope > td')).slice(1);
+        let columnsData = await row.$$(':scope > td');
+        if (!(y > 0 && days[y] === days[y - 1])) {
+            columnsData = columnsData.slice(1);
+        }
         let offsetX = 0;
         for (let x = 0; x < columnsData.length; x++) {
             const cell = columnsData[x];
@@ -162,6 +177,7 @@ export const parseTimelines = async (page: Page): Promise<Course[]> => {
     const tables = await page.$$(TIMELINE_BODY_SELECTOR);
     let result: Course[] = [];
     for (let i = 0; i < headers.length && i < tables.length; i++) {
+        await page.screenshot({ path: './src/out.png' });
         result = result.concat(await parseTimeline(headers[i], tables[i]));
     }
     return result;

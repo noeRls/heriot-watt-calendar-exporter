@@ -100,6 +100,10 @@ router.post('/syncrequest',
     }
 
     try {
+        console.log('Syncrequest started with', {
+            courses,
+            studentGroups,
+        });
         const coursesFound = await withLogin(page => getCourses(page, courses, studentGroups));
         await prisma.syncRequest.update({
             where: { id: syncRequest.id },

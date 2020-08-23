@@ -6,9 +6,8 @@ export type Calendar = calendar_v3.Schema$Calendar;
 export type Event = calendar_v3.Schema$Event;
 
 
-export interface Block {
+export interface StudentGroup {
     title: string;
-    id: string;
 }
 
 export interface CourseDetail {
@@ -21,7 +20,7 @@ export interface CourseDetail {
 }
 
 export interface Course {
-    block: Block;
+    block: StudentGroup;
     start: number;
     end: number;
     detail: CourseDetail;
