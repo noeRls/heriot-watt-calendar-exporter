@@ -20,9 +20,14 @@
     "@types/react-dom": "^16.9.8",
     "@types/react-redux": "^7.1.9",
     "@types/react-router-dom": "^5.1.5",
+    "@typescript-eslint/eslint-plugin": "^3.9.1",
+    "@typescript-eslint/parser": "^3.9.1",
     "axios": "^0.19.2",
     "classnames": "^2.2.6",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
     "googleapis": "^39.2.0",
+    "prettier": "^2.0.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-google-button": "^0.7.1",
@@ -37,6 +42,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "lint": "eslint . --ext js,ts,tsx,jsx",
+    "lint:fix": "eslint . --ext js,ts,tsx,jsx --fix",
     "update-types": "cp ../server/prisma/*.prisma ./prisma/ && cp ../server/src/services/types.ts ./src/types.ts"
   },
   "eslintConfig": {

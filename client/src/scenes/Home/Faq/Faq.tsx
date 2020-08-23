@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from 'react'
-import { Typography, Button, Tooltip, Snackbar } from '@material-ui/core'
+import React, { useCallback, useState } from 'react';
+import { Typography, Button, Tooltip } from '@material-ui/core';
 import style from './Faq.module.css';
 import { api } from 'services/api';
 import { useSelector, useDispatch } from 'react-redux';
@@ -8,9 +8,11 @@ import { snackBarMessagePublished } from 'store/reducer';
 
 export const Faq = () => {
     const calendar = useSelector(selectCalendar);
-    const linkToGithub = <a href="https://github.com/noeRls/heriot-watt-calendar-exporter" target="_blank" rel="noopener noreferrer">
-        https://github.com/noeRls/heriot-watt-calendar-exporter
-    </a>;
+    const linkToGithub = (
+        <a href="https://github.com/noeRls/heriot-watt-calendar-exporter" target="_blank" rel="noopener noreferrer">
+            https://github.com/noeRls/heriot-watt-calendar-exporter
+        </a>
+    );
     const [loading, setLoading] = useState<boolean>(false);
     const dispatch = useDispatch();
 
@@ -22,7 +24,9 @@ export const Faq = () => {
             setLoading(true);
             const { nbEventDeleted } = await api.deleteAllEvents(calendar?.id);
             if (nbEventDeleted > 0) {
-                dispatch(snackBarMessagePublished({ message: `Deleted ${nbEventDeleted} events`, severity: 'success' }));
+                dispatch(
+                    snackBarMessagePublished({ message: `Deleted ${nbEventDeleted} events`, severity: 'success' }),
+                );
             } else {
                 dispatch(snackBarMessagePublished({ message: `No events found`, severity: 'info' }));
             }
@@ -42,31 +46,38 @@ export const Faq = () => {
         } else {
             return 'Delete all events';
         }
-    }
+    };
 
-    const deleteButton = <Tooltip title={getTooltipTitle()} aria-label="delete">
-        <span>
-            <Button
-                onClick={onDelete}
-                disabled={!calendar || !calendar.id || loading}
-                variant="outlined"
-                color="secondary"
-            >
-                Delete all events
-    </Button>
-        </span>
-    </Tooltip>;
+    const deleteButton = (
+        <Tooltip title={getTooltipTitle()} aria-label="delete">
+            <span>
+                <Button
+                    onClick={onDelete}
+                    disabled={!calendar || !calendar.id || loading}
+                    variant="outlined"
+                    color="secondary"
+                >
+                    Delete all events
+                </Button>
+            </span>
+        </Tooltip>
+    );
 
     const contents = [
         {
             title: 'What is this website?',
-            messages: ['This website allow you to synchronize your heriot watt courses timeline to google agenda.']
+            messages: ['This website allow you to synchronize your heriot watt courses timeline to google agenda.'],
         },
         {
             title: 'Why is it asking full permission on my agenda?',
             messages: [
                 'We need the permission to create new events on your agenda to add your heriot watt courses to it. There is no scope that allow only to create events, this is the level of permission we need to have.',
-                <><span>If you are concerned with any privacy issue, the code of this website is available here: </span>{linkToGithub}</>,
+                <>
+                    <span>
+                        If you are concerned with any privacy issue, the code of this website is available here:{' '}
+                    </span>
+                    {linkToGithub}
+                </>,
                 'Google will automatically remove our access to your agenda after a week to so if you do not connect to this website.',
             ],
         },
@@ -79,33 +90,32 @@ export const Faq = () => {
         },
         {
             title: 'Can I re-run a synchronisation?',
-            messages: ['Yes, we are detecting the courses that are already in your agenda, we will not create it again if it exists.', 'If for any reason some courses are duplicated you can always remove all of them thanks to the option above and re-run a synchronisation',],
+            messages: [
+                'Yes, we are detecting the courses that are already in your agenda, we will not create it again if it exists.',
+                'If for any reason some courses are duplicated you can always remove all of them thanks to the option above and re-run a synchronisation',
+            ],
         },
         {
             title: 'Is there a way to contact you?',
-            messages: ['If you are facing a problem or you just want to send me some unicorn 🦄, you can contact me at noe.rivals@gmail.com'],
-        }
-    ]
+            messages: [
+                'If you are facing a problem or you just want to send me some unicorn 🦄, you can contact me at noe.rivals@gmail.com',
+            ],
+        },
+    ];
 
     return (
         <div className={style.container}>
-            <Typography variant="h4" >
-                FAQ
-            </Typography>
+            <Typography variant="h4">FAQ</Typography>
             {contents.map(({ messages, title }) => (
-                <>
-                    <Typography variant="h6">
-                        {title}
-                    </Typography>
-                    {messages.map(message => (
-                        <p>
-                            <Typography>
-                                {message}
-                            </Typography>
+                <div key={title}>
+                    <Typography variant="h6">{title}</Typography>
+                    {messages.map((message, idx) => (
+                        <p key={idx}>
+                            <Typography>{message}</Typography>
                         </p>
                     ))}
-                </>
+                </div>
             ))}
         </div>
-    )
-}
+    );
+};

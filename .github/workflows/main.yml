@@ -1,0 +1,46 @@
+name: App
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: docker-compose build
+    - name: Build the prod docker-compose
+      run: docker-compose -f docker-compose.yml -f docker-compose-prod.yml build
+    - name: Lint client
+      working-directory: ./client
+      run: docker run --entrypoint=npm run-script lint
+    - name: Lint server
+      working-directory: ./server
+      run: docker run --entrypoint=npm run-script lint
+
+#  deploy:
+#    needs: build
+#    if: github.ref == 'refs/heads/master'
+#    runs-on: ubuntu-latest
+#    steps:
+#    - uses: actions/checkout@v2
+#    - name: copy sources
+#      uses: appleboy/scp-action@master
+#      with:
+#        host: ${{ secrets.HOST }}
+#        username: ${{ secrets.USERNAME }}
+#        key: ${{ secrets.KEY }}
+#        port: ${{ secrets.PORT }}
+#        source: "*"
+#        target: "~/app"
+#        rm: true
+#    - uses: appleboy/ssh-action@master
+#      with:
+#        host: ${{ secrets.HOST }}
+#        username: ${{ secrets.USERNAME }}
+#        key: ${{ secrets.KEY }}
+#        port: ${{ secrets.PORT }}
+#        script: |
+#          cd app &&
+#          docker-compose -f docker-compose.yml -f docker-compose-prod.yml build &&
+#          docker-compose -f docker-compose.yml -f docker-compose-prod.yml down &&
+#          GH_ISSUE_TOKEN=${{ secrets.GH_ISSUE_TOKEN }} docker-compose -f docker-compose.yml -f docker-compose-prod.yml up -d

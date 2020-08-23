@@ -1,5 +1,5 @@
 import * as puppeteer from 'puppeteer';
-import { getPage, releasePage } from './puppeteerProvider'
+import { getPage, releasePage } from './puppeteerProvider';
 import { Page, ElementHandle } from 'puppeteer';
 import { Dictionary, last } from 'ramda';
 import { Block, CourseDetail, Course } from '../types';
@@ -18,7 +18,7 @@ const extractText = async (selector: string, element?: ElementHandle): Promise<s
         return null;
     }
     return resultElement.evaluate(el => el.textContent);
-}
+};
 
 const parseHeader = async (header: ElementHandle): Promise<{
     block: Block,
@@ -27,7 +27,7 @@ const parseHeader = async (header: ElementHandle): Promise<{
     const block: Block = {
         id: await extractText('.header-1-1-0', header),
         title: await extractText('.header-1-1-2', header),
-    }
+    };
     const week = await extractText('.header-2-2-3', header);
     if (!week) {
         throw new Error('Failed to parse week in header');
@@ -37,7 +37,7 @@ const parseHeader = async (header: ElementHandle): Promise<{
         block,
         weekStart,
     };
-}
+};
 
 const parseHoursRow = async (column: ElementHandle): Promise<DayTime[]> => {
     const hours: DayTime[] = [];
@@ -63,17 +63,17 @@ const parseHoursRow = async (column: ElementHandle): Promise<DayTime[]> => {
         });
     }
     return hours;
-}
+};
 
 const parseDays = async (table: ElementHandle): Promise<string[]> => {
     const daysElement = await table.$$('.row-label-one');
     const days: string[] = [];
-    for (let i = 0; i < daysElement.length; i++) {
-        const timeText = await daysElement[i].evaluate(el => el.textContent);
+    for (const dayElement of daysElement) {
+        const timeText = await dayElement.evaluate(el => el.textContent);
         days.push(timeText);
     }
     return days;
-}
+};
 
 const parseCell = async (cell: ElementHandle): Promise<CourseDetail> => {
     const lines = await cell.$$('table');
@@ -87,8 +87,8 @@ const parseCell = async (cell: ElementHandle): Promise<CourseDetail> => {
         locations,
         activityType,
         professor,
-    }
-}
+    };
+};
 
 const dayToOffset: Record<string, number> = {
     Mon: 1,
@@ -112,8 +112,8 @@ const computeDate = (startTime: DayTime, endTime: DayTime, day: string, weekStar
     return {
         start: dayDate.setUTCHours(startTime.hour, startTime.min),
         end: dayDate.setUTCHours(endTime.hour, endTime.min),
-    }
-}
+    };
+};
 
 type TableCourseInfo = Omit<Course, 'block'>;
 const TIMELINE_BODY_SELECTOR='.grid-border-args';
@@ -137,14 +137,14 @@ const parseTable = async (table: ElementHandle, weekStart: string): Promise<Tabl
                 }
                 results.push({
                     ...computeDate(hours[x + offsetX], hours[x + offsetX + duration], days[y], weekStart),
-                    detail: await parseCell(cell)
+                    detail: await parseCell(cell),
                 });
                 offsetX += Number(duration) - 1;
             }
         }
     }
     return results;
-}
+};
 
 const parseTimeline = async (header: ElementHandle, table: ElementHandle): Promise<Course[]> => {
     const { block, weekStart } = await parseHeader(header);
@@ -153,12 +153,11 @@ const parseTimeline = async (header: ElementHandle, table: ElementHandle): Promi
         block,
         ...course,
     }));
-}
+};
 
 export const parseTimelines = async (page: Page): Promise<Course[]> => {
     const TIMELINE_HEADER_SELECTOR='.header-border-args';
     await page.waitFor(TIMELINE_HEADER_SELECTOR);
-    await page.screenshot({ path: './src/out.png' })
     const headers = await page.$$(TIMELINE_HEADER_SELECTOR);
     const tables = await page.$$(TIMELINE_BODY_SELECTOR);
     let result: Course[] = [];
@@ -166,4 +165,4 @@ export const parseTimelines = async (page: Page): Promise<Course[]> => {
         result = result.concat(await parseTimeline(headers[i], tables[i]));
     }
     return result;
-}
+};

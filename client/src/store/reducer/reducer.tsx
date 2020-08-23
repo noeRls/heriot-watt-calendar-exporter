@@ -11,17 +11,17 @@ export interface AppSliceState {
     calendars: Record<string, Calendar>;
     coursesOption: string[];
     syncRequest: {
-        status: 'none' | 'loading' | 'error' | 'done',
-        detail?: SyncRequest
-    },
+        status: 'none' | 'loading' | 'error' | 'done';
+        detail?: SyncRequest;
+    };
     selection: {
         calendarId?: string;
-    },
+    };
     snakbar: {
         open: boolean;
         message?: string;
         severity?: AlertProps['severity'];
-    }
+    };
 }
 
 const initialState: AppSliceState = {
@@ -33,7 +33,7 @@ const initialState: AppSliceState = {
     snakbar: {
         open: false,
     },
-}
+};
 
 const setSnackbarMessage = (state: AppSliceState, message: string, severity: AlertProps['severity']) => {
     state.snakbar = {
@@ -41,8 +41,8 @@ const setSnackbarMessage = (state: AppSliceState, message: string, severity: Ale
         open: true,
         message,
         severity,
-    }
-}
+    };
+};
 
 export const appSlice = createSlice({
     name: 'app',
@@ -54,11 +54,14 @@ export const appSlice = createSlice({
         snackbarVisibillityChanged: (state, action: PayloadAction<boolean>) => {
             state.snakbar.open = action.payload;
         },
-        snackBarMessagePublished: (state, action: PayloadAction<{ message: string, severity: AlertProps['severity']}>) => {
+        snackBarMessagePublished: (
+            state,
+            action: PayloadAction<{ message: string; severity: AlertProps['severity'] }>,
+        ) => {
             setSnackbarMessage(state, action.payload.message, action.payload.severity);
         },
     },
-    extraReducers: builder => {
+    extraReducers: (builder) => {
         builder.addCase(fetchCalendar.fulfilled, (state, action) => {
             state.calendars = action.payload.reduce<Record<string, Calendar>>((acc, calendar) => {
                 if (!calendar.id) {
@@ -68,7 +71,6 @@ export const appSlice = createSlice({
                 acc[calendar.id] = calendar;
                 return acc;
             }, {});
-
         });
         builder.addCase(fetchCalendar.rejected, (state, action) => {
             state.user = undefined;
@@ -95,16 +97,16 @@ export const appSlice = createSlice({
         });
 
         builder.addCase(fetchCoursesOption.fulfilled, (state, action) => {
-            state.coursesOption = action.payload
+            state.coursesOption = action.payload;
         });
         builder.addCase(fetchCoursesOption.rejected, (_, action) => {
-            console.error(action.error)
+            console.error(action.error);
         });
 
         builder.addCase(createSyncRequest.pending, (state) => {
             state.syncRequest.status = 'loading';
             state.syncRequest.detail = undefined;
-        })
+        });
         builder.addCase(createSyncRequest.fulfilled, (state, action) => {
             state.syncRequest.detail = action.payload;
             state.syncRequest.status = 'done';
@@ -129,11 +131,7 @@ export const appSlice = createSlice({
             setSnackbarMessage(state, 'An error occured', 'error');
             console.error(action.error);
         });
-    }
+    },
 });
 
-export const {
-    selectedCalendarChanged,
-    snackBarMessagePublished,
-    snackbarVisibillityChanged,
-} = appSlice.actions;
+export const { selectedCalendarChanged, snackBarMessagePublished, snackbarVisibillityChanged } = appSlice.actions;

@@ -12,12 +12,11 @@ export const LoginWithGoogle = () => {
         window.open(`${process.env.REACT_APP_API_URL}/auth/google`, '_self');
     }, []);
 
-    return <div className={style.container}>
-        <div className={style.button}>
-            <GoogleButton
-                disabled={!isLoaded || Boolean(user)}
-                onClick={onClick}
-            />
+    return (
+        <div className={style.container}>
+            <div className={style.button}>
+                <GoogleButton disabled={!isLoaded || Boolean(user)} onClick={onClick} />
+            </div>
         </div>
-    </div >
-}
+    );
+};

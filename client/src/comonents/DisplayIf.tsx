@@ -1,8 +1,8 @@
 import React from 'react';
 
 interface DisplayIfProps {
-    expr: boolean
-    onElse?: JSX.Element
+    expr: boolean;
+    onElse?: JSX.Element;
 }
 
 export const DisplayIf: React.FC<DisplayIfProps> = ({ children, expr, onElse }) => {
@@ -13,4 +13,4 @@ export const DisplayIf: React.FC<DisplayIfProps> = ({ children, expr, onElse }) 
         return onElse;
     }
     return null;
-}
+};

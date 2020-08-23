@@ -10,12 +10,12 @@ export const Snackbar = () => {
     const dispatch = useDispatch();
     const onClose = useCallback(() => {
         dispatch(snackbarVisibillityChanged(false));
-    }, [dispatch])
+    }, [dispatch]);
     return (
         <MaterialUiSnackbar open={open} autoHideDuration={6000} onClose={onClose}>
             <Alert onClose={onClose} severity={severity}>
-              {message}
+                {message}
             </Alert>
         </MaterialUiSnackbar>
     );
-}
+};

@@ -5,10 +5,10 @@ import { Typography } from '@material-ui/core';
 
 export const Home = () => (
     <>
-        <Typography variant="h4" style={{textAlign: 'left'}}>
+        <Typography variant="h4" style={{ textAlign: 'left' }}>
             Synchronize your calendar
         </Typography>
         <SyncRequestForm />
         <SyncRequestTimeline />
     </>
-)
+);

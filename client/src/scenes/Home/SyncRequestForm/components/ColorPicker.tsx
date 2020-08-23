@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormControl, InputLabel, Select, MenuItem, makeStyles, createStyles } from '@material-ui/core';
+import { noop } from 'services/utils';
 
 interface ColorPickerProps {
     onChange: (colorId: number) => void;
@@ -20,7 +21,7 @@ const useStyles = makeStyles(() =>
             borderRadius: 2,
             paddingLeft: '10px',
             backgroundClip: 'content-box',
-        }
+        },
     }),
 );
 
@@ -32,7 +33,7 @@ interface Color {
 
 export const initialColorId = 7;
 
-export const ColorPicker = ({ onChange = () => { } }: ColorPickerProps) => {
+export const ColorPicker = ({ onChange = noop }: ColorPickerProps) => {
     const style = useStyles();
     const colors: Color[] = [
         { id: 1, name: 'Lavender', color: '#7986cb' },
@@ -58,16 +59,16 @@ export const ColorPicker = ({ onChange = () => { } }: ColorPickerProps) => {
                     defaultValue={initialColorId}
                     onChange={(e) => onChange(e.target.value as number)}
                     renderValue={(id) => {
-                        const color = colors.find(color => color.id === id);
+                        const color = colors.find((color) => color.id === id);
                         return (
                             <div className={style.renderValueContainer}>
                                 {color?.name}
                                 <div className={style.colorPreview} style={{ backgroundColor: color?.color }} />
                             </div>
-                        )
+                        );
                     }}
                 >
-                    {colors.map(color => (
+                    {colors.map((color) => (
                         <MenuItem key={color.id} value={color.id}>
                             {color.name}
                             <div className={style.colorPreview} style={{ backgroundColor: color.color }} />
@@ -77,4 +78,4 @@ export const ColorPicker = ({ onChange = () => { } }: ColorPickerProps) => {
             </FormControl>
         </div>
     );
-}
+};

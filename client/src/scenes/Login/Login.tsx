@@ -12,9 +12,11 @@ export const Login = () => {
         if (user) {
             history.push(urls.home);
         }
-    }, [user, history])
+    }, [user, history]);
 
-    return <div>
-        <LoginWithGoogle />
-    </div>
-}
+    return (
+        <div>
+            <LoginWithGoogle />
+        </div>
+    );
+};

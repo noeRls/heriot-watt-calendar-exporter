@@ -1,17 +1,20 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { isLogged, useCoursesOption, useGoogle, validateMiddleware, useCalendar } from '../middleware';
-import { IsString, IsNumber, Max, Min, MinLength, IsArray, ArrayMinSize } from 'class-validator';
-import { listCalendar, createCourses } from '../../services/google/calendar';
+import { IsString, IsNumber, Max, Min, IsArray, ArrayMinSize } from 'class-validator';
+import { createCourses } from '../../services/google/calendar';
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR, OK, FORBIDDEN } from 'http-status';
 import { prisma } from '../prisma';
 import { User, SyncRequest } from '@prisma/client';
 import { getCourses } from '../../services/hw/heriot-watt';
 import { withLogin } from '../../services/utils';
-import { serializeError } from 'serialize-error'
+import { serializeError } from 'serialize-error';
 import httpStatus = require('http-status');
 
 const router = Router();
 
+if (!process.env.RATE_LIMIT_REQUEST || Number.isNaN(Number(process.env.RATE_LIMIT_REQUEST))) {
+    console.error('Misssing RATE_LIMIT_REQUEST env variable')
+}
 const useSyncRequestLimit = async (req: Request, res: Response, next: NextFunction) => {
     const ONE_DAY_MS = 1000 * 60 * 60 * 24;
     try {
@@ -21,19 +24,20 @@ const useSyncRequestLimit = async (req: Request, res: Response, next: NextFuncti
                     userId: (req.user as User).id,
                     createdAt: {
                         gte: new Date(Date.now() - ONE_DAY_MS),
-                    }
-                }
+                    },
+                },
 
-            }
+            },
         });
-        if (requests.length >= 10) {
-            return res.status(FORBIDDEN).send({ code: 'RATE_LIMIT' })
+        if (requests.length >= Number(process.env.RATE_LIMIT_REQUEST)) {
+            return res.status(FORBIDDEN).send({ code: 'RATE_LIMIT' });
         }
+        return next();
     } catch (e) {
         console.error(e);
         return res.status(INTERNAL_SERVER_ERROR).end();
     }
-}
+};
 
 class SyncRequestBody {
     @IsString()
@@ -42,7 +46,7 @@ class SyncRequestBody {
     @IsNumber()
     @Max(11)
     @Min(1)
-    colorId: number
+    colorId: number;
 
     @IsString({
         each: true,
@@ -76,10 +80,10 @@ router.post('/syncrequest',
             data: {
                 user: {
                     connect: {
-                        id: (req.user as User).id
-                    }
-                }
-            }
+                        id: (req.user as User).id,
+                    },
+                },
+            },
         });
         res.status(OK).send(syncRequest);
     } catch (e) {
@@ -96,7 +100,7 @@ router.post('/syncrequest',
         const coursesAdded = await createCourses(req.googleClient, coursesFound, calendar, colorId.toString());
         await prisma.syncRequest.update({
             where: { id: syncRequest.id },
-            data: { coursesAdded: coursesAdded.length }
+            data: { coursesAdded: coursesAdded.length },
         });
     } catch (e) {
         console.error(e);
@@ -110,7 +114,8 @@ router.post('/syncrequest',
     }
 });
 
-const withSyncRequest = (where: 'body' | 'query' | 'params' = 'params') => async (req: Request, res: Response, next: NextFunction) => {
+const withSyncRequest = (where: 'body' | 'query' | 'params' = 'params') =>
+    async (req: Request, res: Response, next: NextFunction) => {
     const { id: stringId } = req[where];
     const id = Number(stringId);
     if (!id || Number.isNaN(id)) {
@@ -127,7 +132,7 @@ const withSyncRequest = (where: 'body' | 'query' | 'params' = 'params') => async
     }
     req.syncRequest = syncRequest;
     return next();
-}
+};
 
 router.get('/syncrequest/:id', isLogged, withSyncRequest(), async (req: Request, res: Response) => {
     return res.status(OK).send(req.syncRequest);

@@ -9,17 +9,19 @@ import { Home } from 'scenes/Home/Home';
 import { Login } from 'scenes/Login/Login';
 
 function App() {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchUser());
-  }, [dispatch]);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(fetchUser());
+    }, [dispatch]);
 
-  return <Layout>
-      <Switch>
-        <Route exact path={urls.login} component={Login} />
-        <PrivateRoute path={urls.home} component={Home} />
-      </Switch>
-    </Layout>
-};
+    return (
+        <Layout>
+            <Switch>
+                <Route exact path={urls.login} component={Login} />
+                <PrivateRoute path={urls.home} component={Home} />
+            </Switch>
+        </Layout>
+    );
+}
 
 export default App;

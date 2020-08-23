@@ -12,9 +12,9 @@ RUN npx prisma generate
 
 COPY . ./
 
-ARG ENV
+ARG NODE_ENV
 ARG REACT_APP_API_URL
 
-RUN if [ "$ENV" = "production" ]; then REACT_APP_API_URL=${REACT_APP_API_URL} npm run-script build; fi
+RUN if [ "$NODE_ENV" = "production" ]; then REACT_APP_API_URL=${REACT_APP_API_URL} npm run-script build; fi
 
 CMD [ "npm", "start" ]

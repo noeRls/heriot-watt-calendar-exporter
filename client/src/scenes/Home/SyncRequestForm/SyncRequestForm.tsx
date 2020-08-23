@@ -3,7 +3,7 @@ import { GoogleCalendarPicker } from './components/GoogleCalendarPicker';
 import { CoursesPicker } from './components/CoursesPicker';
 import { Button } from '@material-ui/core';
 import { ColorPicker, initialColorId } from './components/ColorPicker';
-import style from './SyncRequestForm.module.css'
+import style from './SyncRequestForm.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSyncRequestStatus, selectCalendar } from 'store/selector/app';
 import { createSyncRequest } from 'store/reducer';
@@ -19,11 +19,13 @@ export const SyncRequestForm = () => {
         if (!calendar || !calendar.id || !colorId || courses.length === 0) {
             return;
         }
-        dispatch(createSyncRequest({
-            calendarId: calendar.id,
-            colorId,
-            courses,
-        }))
+        dispatch(
+            createSyncRequest({
+                calendarId: calendar.id,
+                colorId,
+                courses,
+            }),
+        );
     }, [calendar, courses, colorId, dispatch]);
 
     return (
@@ -32,7 +34,9 @@ export const SyncRequestForm = () => {
             <CoursesPicker onChange={setCourses} />
             <ColorPicker onChange={setColorId} />
             <Button
-                disabled={!calendar || !calendar.id || !colorId || courses.length === 0 || syncRequestStatus === 'loading'}
+                disabled={
+                    !calendar || !calendar.id || !colorId || courses.length === 0 || syncRequestStatus === 'loading'
+                }
                 variant="contained"
                 color="primary"
                 onClick={startSynchronisation}
@@ -41,4 +45,4 @@ export const SyncRequestForm = () => {
             </Button>
         </div>
     );
-}
+};

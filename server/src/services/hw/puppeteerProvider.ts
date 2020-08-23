@@ -1,8 +1,5 @@
-import { launch, Browser, Page } from 'puppeteer'
-
-function sleep(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
+import { launch, Browser, Page } from 'puppeteer';
+import { sleep } from '../utils';
 
 let browser: Browser = null;
 let maxPage: number = 10;
@@ -19,8 +16,8 @@ export const getPage = async (): Promise<Page> => {
                 '--disable-setuid-sandbox',
                 // This will write shared memory files into /tmp instead of /dev/shm,
                 // because Docker’s default for /dev/shm is 64MB
-                '--disable-dev-shm-usage'
-              ]
+                '--disable-dev-shm-usage',
+              ],
         });
         loading = false;
     }
@@ -38,11 +35,11 @@ export const getPage = async (): Promise<Page> => {
         width: 1920,
     });
     return page;
-}
+};
 
 export const setMaxPage = (nb: number) => {
     maxPage = nb;
-}
+};
 
 export const releasePage = async (page: Page) => {
     await page.close();
@@ -52,4 +49,4 @@ export const releasePage = async (page: Page) => {
         browser = null;
         await bcpBrowser.close();
     }
-}
+};

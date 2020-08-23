@@ -13,9 +13,12 @@ export const GoogleCalendarPicker = () => {
         dispatch(fetchCalendar());
     }, [dispatch]);
 
-    const onChange = useCallback((calendar: Calendar | null) => {
-        dispatch(selectedCalendarChanged(calendar?.id))
-    }, [dispatch])
+    const onChange = useCallback(
+        (calendar: Calendar | null) => {
+            dispatch(selectedCalendarChanged(calendar?.id));
+        },
+        [dispatch],
+    );
     return (
         <Autocomplete
             loading={calendars.length === 0}
@@ -27,4 +30,4 @@ export const GoogleCalendarPicker = () => {
             )}
         />
     );
-}
+};

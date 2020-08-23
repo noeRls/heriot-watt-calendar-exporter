@@ -11,11 +11,11 @@ services:
       CORS: all
       SERVER_GOOGLE_CLIENT_ID: ${SERVER_GOOGLE_CLIENT_ID}
       SERVER_GOOGLE_CLIENT_SECRET: ${SERVER_GOOGLE_CLIENT_SECRET}
-      HW_PWD: ${HW_PWD}
-      HW_USERNAME: ${HW_USERNAME}
+      COOKIE_SESSION_SECRET: supersecret
       DATABASE_URL: postgresql://postgres:password@database:5432/hwexporter
       API_URL: http://localhost:8081
       APP_URL: http://localhost:3000
+      RATE_LIMIT_REQUEST: 10
     depends_on:
       - database
 

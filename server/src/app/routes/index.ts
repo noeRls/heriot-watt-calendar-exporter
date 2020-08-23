@@ -9,4 +9,4 @@ export default (app: Express) => {
     app.use(CoursesRoutes);
     app.use(UserRoutes);
     app.use(SyncRequestRoutes);
-}
+};

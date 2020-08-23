@@ -18,6 +18,6 @@ const main = async () => {
     const client = await authentificate();
     console.log('authentificated');
     await createCourses(client, courses, { id: 'primary' });
-}
+};
 
 // main().catch(console.error);

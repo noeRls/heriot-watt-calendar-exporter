@@ -2,7 +2,16 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSyncRequest, selectSyncRequestStatus } from 'store/selector/app';
 import { fetchSyncRequest } from 'store/reducer';
-import { Timeline, TimelineItem, TimelineSeparator, TimelineDot as TimelineDotOriginal, TimelineContent, TimelineConnector, TimelineDotProps as TimelineDotOriginalProps, TimelineOppositeContent } from '@material-ui/lab';
+import {
+    Timeline,
+    TimelineItem,
+    TimelineSeparator,
+    TimelineDot as TimelineDotOriginal,
+    TimelineContent,
+    TimelineConnector,
+    TimelineDotProps as TimelineDotOriginalProps,
+    TimelineOppositeContent,
+} from '@material-ui/lab';
 import { makeStyles, createStyles, Typography } from '@material-ui/core';
 import style from './SyncRequestTimeline.module.css';
 import { SyncRequest } from '@prisma/client';
@@ -22,10 +31,12 @@ const useClasses = makeStyles(() =>
 const TimelineDot = ({ status, ...other }: TimelineDotProps) => {
     const classes = useClasses();
     if (status === 'active') {
-        return <>
-            <div className={style.loadingDot} />
-            <TimelineDotOriginal color="grey" />
-        </>
+        return (
+            <>
+                <div className={style.loadingDot} />
+                <TimelineDotOriginal color="grey" />
+            </>
+        );
     }
     const getColor = (status: TimelineDotProps['status']): TimelineDotOriginalProps['color'] => {
         switch (status) {
@@ -38,10 +49,12 @@ const TimelineDot = ({ status, ...other }: TimelineDotProps) => {
             case 'inactive':
                 return 'grey';
         }
-    }
+    };
 
-    return <TimelineDotOriginal classes={{ defaultPrimary: classes.defaultPrimary }} {...other} color={getColor(status)} />
-}
+    return (
+        <TimelineDotOriginal classes={{ defaultPrimary: classes.defaultPrimary }} {...other} color={getColor(status)} />
+    );
+};
 
 export const SyncRequestTimeline = () => {
     const dispatch = useDispatch();
@@ -55,7 +68,7 @@ export const SyncRequestTimeline = () => {
         const fetchIt = () => {
             console.log('fetching request');
             dispatch(fetchSyncRequest(syncRequest.id));
-        }
+        };
         const interval = setInterval(fetchIt, 1000);
         return () => clearInterval(interval);
     }, [syncRequestStatus, syncRequest, dispatch]);
@@ -66,7 +79,7 @@ export const SyncRequestTimeline = () => {
             expr: syncRequestStatus !== 'none' && syncRequest,
         },
         {
-            name: 'Fetch your courses timeline (~1mn)',
+            name: 'Fetch your courses timeline (~5min)',
             expr: syncRequest && syncRequest.coursesFound !== null,
             finalText: (syncRequest: SyncRequest) => `${syncRequest.coursesFound} courses fetched`,
         },
@@ -89,27 +102,23 @@ export const SyncRequestTimeline = () => {
                         status = syncRequestStatus === 'error' ? 'error' : 'active';
                         nextActive = false;
                     } else {
-                        status = 'inactive'
+                        status = 'inactive';
                     }
                 }
                 return (
                     <TimelineItem key={step.name}>
-                        {syncRequest && step.finalText && status === 'done' &&
+                        {syncRequest && step.finalText && status === 'done' && (
                             <TimelineOppositeContent>
-                                <Typography color="textSecondary">
-                                    {step.finalText(syncRequest)}
-                                </Typography>
+                                <Typography color="textSecondary">{step.finalText(syncRequest)}</Typography>
                             </TimelineOppositeContent>
-                        }
+                        )}
                         <TimelineSeparator>
                             <TimelineDot status={status} />
                             {idx + 1 !== steps.length && <TimelineConnector />}
-                        </ TimelineSeparator>
-                        <TimelineContent>
-                            {step.name}
-                        </TimelineContent>
+                        </TimelineSeparator>
+                        <TimelineContent>{step.name}</TimelineContent>
                     </TimelineItem>
-                )
+                );
             })}
         </Timeline>
     );

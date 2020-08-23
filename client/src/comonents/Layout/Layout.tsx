@@ -18,14 +18,14 @@ export const Layout: React.FC = ({ children }) => {
                     {children}
                     {isSmallScreen && <Faq />}
                 </div>
-                {!isSmallScreen &&
-                <>
-                    <div className={style.contentBorder} />
-                    <div className={cx(style.contentBody, style.faq)}>
-                        <Faq />
-                    </div>
-                </>
-                }
+                {!isSmallScreen && (
+                    <>
+                        <div className={style.contentBorder} />
+                        <div className={cx(style.contentBody, style.faq)}>
+                            <Faq />
+                        </div>
+                    </>
+                )}
                 <div className={style.contentBorder} />
             </div>
             <Snackbar />

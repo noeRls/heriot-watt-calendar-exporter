@@ -31,7 +31,7 @@ export const api = {
     },
     createSyncRequest: async (params: CreateSyncRequestParams): Promise<SyncRequest> => {
         const { data } = await axios.post('/syncrequest', {
-            ...params
+            ...params,
         });
         return data;
     },
@@ -40,7 +40,7 @@ export const api = {
         return data;
     },
     deleteAllEvents: async (calendarId: string): Promise<{ nbEventDeleted: number }> => {
-        const { data } = await axios.delete(`/courses/${calendarId}`)
+        const { data } = await axios.delete(`/courses/${calendarId}`);
         return data;
-    }
-}
+    },
+};
