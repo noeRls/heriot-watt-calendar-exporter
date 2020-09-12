@@ -18,7 +18,7 @@ export const SyncRequestForm = () => {
     const syncRequestStatus = useSelector(selectSyncRequestStatus);
 
     const startSynchronisation = useCallback(() => {
-        if (!calendar || !calendar.id || !colorId || courses.length === 0 || studentGroups.length === 0) {
+        if (!calendar || !calendar.id || courses.length === 0 || studentGroups.length === 0) {
             return;
         }
         dispatch(
@@ -41,7 +41,6 @@ export const SyncRequestForm = () => {
                 disabled={
                     !calendar ||
                     !calendar.id ||
-                    !colorId ||
                     courses.length === 0 ||
                     syncRequestStatus === 'loading' ||
                     studentGroups.length === 0

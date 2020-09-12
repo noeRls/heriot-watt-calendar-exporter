@@ -83,6 +83,9 @@ const createCourse = async (api: CalendarApi, course: Course, calendar: Calendar
             location: course.detail.locations.join(', '),
             description: buildCourseDescription(course),
             colorId,
+            reminders: {
+                useDefault: true
+            }
         },
     });
 };
