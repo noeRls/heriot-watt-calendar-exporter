@@ -84,8 +84,8 @@ const createCourse = async (api: CalendarApi, course: Course, calendar: Calendar
             description: buildCourseDescription(course),
             colorId,
             reminders: {
-                useDefault: true
-            }
+                useDefault: true,
+            },
         },
     });
 };
