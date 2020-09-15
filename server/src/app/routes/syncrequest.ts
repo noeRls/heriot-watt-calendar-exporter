@@ -46,7 +46,7 @@ class SyncRequestBody {
 
     @IsNumber()
     @Max(11)
-    @Min(1)
+    @Min(0)
     colorId: number;
 
     @IsString({
@@ -109,7 +109,11 @@ router.post('/syncrequest',
             where: { id: syncRequest.id },
             data: { coursesFound: coursesFound.length },
         });
-        const coursesAdded = await createCourses(req.googleClient, coursesFound, calendar, colorId.toString());
+        const coursesAdded = await createCourses(
+            req.googleClient,
+            coursesFound,
+            calendar,
+            colorId === 0 ? undefined : colorId.toString());
         await prisma.syncRequest.update({
             where: { id: syncRequest.id },
             data: { coursesAdded: coursesAdded.length },

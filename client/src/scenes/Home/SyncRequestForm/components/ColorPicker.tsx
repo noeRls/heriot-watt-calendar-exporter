@@ -31,11 +31,12 @@ interface Color {
     color: string;
 }
 
-export const initialColorId = 7;
+export const initialColorId = 0;
 
 export const ColorPicker = ({ onChange = noop }: ColorPickerProps) => {
     const style = useStyles();
     const colors: Color[] = [
+        { id: 0, name: 'Default', color: '#ffffff' },
         { id: 1, name: 'Lavender', color: '#7986cb' },
         { id: 2, name: 'Sage', color: '#33b679' },
         { id: 3, name: 'Grape', color: '#8e24aa' },
@@ -45,8 +46,8 @@ export const ColorPicker = ({ onChange = noop }: ColorPickerProps) => {
         { id: 7, name: 'Peacock', color: '#039be5' },
         { id: 8, name: 'Graphite', color: '#616161' },
         { id: 9, name: 'Blueberry', color: '#3f51b5' },
-        { id: 1, name: 'Basil', color: '#0b8043' },
-        { id: 1, name: 'Tomato', color: '#d60000' },
+        { id: 10, name: 'Basil', color: '#0b8043' },
+        { id: 11, name: 'Tomato', color: '#d60000' },
     ];
 
     return (
