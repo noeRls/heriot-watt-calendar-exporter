@@ -36,7 +36,7 @@ export const SyncRequestForm = () => {
             <GoogleCalendarPicker />
             <CoursesPicker onChange={setCourses} />
             <StudentGroupPicker onChange={setStudentGroups} />
-            <ColorPicker onChange={setColorId} />
+            <ColorPicker onChange={setColorId} defaultColor={calendar?.backgroundColor} />
             <Button
                 disabled={
                     !calendar ||
