@@ -7,6 +7,7 @@ import { fetchCalendar, fetchUser, logout, createSyncRequest, fetchSyncRequest }
 import { AlertProps } from '@material-ui/lab';
 
 export interface AppSliceState {
+    calendarColorId?: number;
     user?: User;
     loaded: boolean;
     calendars: Record<string, Calendar>;
@@ -62,6 +63,9 @@ export const appSlice = createSlice({
             action: PayloadAction<{ message: string; severity: AlertProps['severity'] }>,
         ) => {
             setSnackbarMessage(state, action.payload.message, action.payload.severity);
+        },
+        setColorId: (state, action: PayloadAction<number | undefined>) => {
+            state.calendarColorId = action.payload;
         },
     },
     extraReducers: (builder) => {
@@ -130,4 +134,4 @@ export const appSlice = createSlice({
     },
 });
 
-export const { selectedCalendarChanged, snackBarMessagePublished, snackbarVisibillityChanged } = appSlice.actions;
+export const { selectedCalendarChanged, snackBarMessagePublished, snackbarVisibillityChanged, setColorId } = appSlice.actions;

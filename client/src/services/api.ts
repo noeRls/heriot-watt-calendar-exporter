@@ -9,7 +9,7 @@ export const axios = Axios.create({
 
 export interface CreateSyncRequestParams {
     calendarId: string;
-    colorId: number;
+    colorId?: number;
     courses: string[];
     studentGroups: string[];
 }

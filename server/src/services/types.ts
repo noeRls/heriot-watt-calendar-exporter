@@ -2,7 +2,7 @@ import { google, calendar_v3 } from 'googleapis';
 
 export type OAuth2Client = typeof google.auth.OAuth2.prototype;
 export type Credentials = typeof google.auth.OAuth2.prototype.credentials;
-export type Calendar = calendar_v3.Schema$Calendar;
+export type Calendar = calendar_v3.Schema$CalendarListEntry;
 export type Event = calendar_v3.Schema$Event;
 
 

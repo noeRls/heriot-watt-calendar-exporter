@@ -1,10 +1,8 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { FormControl, InputLabel, Select, MenuItem, makeStyles, createStyles } from '@material-ui/core';
-import { noop } from 'services/utils';
-
-interface ColorPickerProps {
-    onChange: (colorId: number) => void;
-}
+import { useDispatch, useSelector } from 'react-redux';
+import { selectCalendar, selectColorId } from 'store/selector/app';
+import { setColorId } from 'store/reducer';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -20,58 +18,75 @@ const useStyles = makeStyles(() =>
             height: '20px',
             borderRadius: 2,
             paddingLeft: '10px',
+            paddingRight: '10px',
             backgroundClip: 'content-box',
         },
     }),
 );
 
 interface Color {
-    id: number;
     name: string;
     color: string;
 }
 
-export const initialColorId = 7;
-
-export const ColorPicker = ({ onChange = noop }: ColorPickerProps) => {
+export const ColorPicker = () => {
     const style = useStyles();
-    const colors: Color[] = [
-        { id: 1, name: 'Lavender', color: '#7986cb' },
-        { id: 2, name: 'Sage', color: '#33b679' },
-        { id: 3, name: 'Grape', color: '#8e24aa' },
-        { id: 4, name: 'Flamingo', color: '#e67c73' },
-        { id: 5, name: 'Banana', color: '#f6c026' },
-        { id: 6, name: 'Tangerine', color: '#f5511d' },
-        { id: 7, name: 'Peacock', color: '#039be5' },
-        { id: 8, name: 'Graphite', color: '#616161' },
-        { id: 9, name: 'Blueberry', color: '#3f51b5' },
-        { id: 1, name: 'Basil', color: '#0b8043' },
-        { id: 1, name: 'Tomato', color: '#d60000' },
-    ];
+    const calendar = useSelector(selectCalendar);
+    const colorId = useSelector(selectColorId);
+    const dispatch = useDispatch();
+
+    const colors = useMemo((): { [id: string] : Color; } => ({
+        '1': { name: 'Lavender', color: '#7986cb' },
+        '2': { name: 'Sage', color: '#33b679' },
+        '3': { name: 'Grape', color: '#8e24aa' },
+        '4': { name: 'Flamingo', color: '#e67c73' },
+        '5': { name: 'Banana', color: '#f6c026' },
+        '6': { name: 'Tangerine', color: '#f5511d' },
+        '7': { name: 'Peacock', color: '#039be5' },
+        '8': { name: 'Graphite', color: '#616161' },
+        '9': { name: 'Blueberry', color: '#3f51b5' },
+        '10': { name: 'Basil', color: '#0b8043' },
+        '11': { name: 'Tomato', color: '#d60000' },
+        get '0'() {
+            if (!calendar || !calendar.backgroundColor) {
+                return { name: 'Default', color: '#ffffff' };
+            }
+            return { name: 'Default', color: calendar.backgroundColor };
+        }
+    }), [calendar])
+
+    const onChange = useCallback((newColorId?: number) => {
+        if (!newColorId || newColorId === 0) {
+            dispatch(setColorId(undefined));
+        } else {
+            dispatch(setColorId(newColorId));
+        }
+    }, [dispatch]);
 
     return (
         <div>
-            <FormControl className={style.formControl}>
+            <FormControl className={style.formControl} disabled={calendar === undefined}>
                 <InputLabel id="demo-simple-select-label">Color</InputLabel>
                 <Select
+                    value={colorId || 0}
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    defaultValue={initialColorId}
-                    onChange={(e) => onChange(e.target.value as number)}
-                    renderValue={(id) => {
-                        const color = colors.find((color) => color.id === id);
+                    onChange={(e) => onChange(Number(e.target.value))}
+                    renderValue={(value) => {
+                        console.log("Value: ", value)
+                        const color = colors[String(value)] || colors[0];
                         return (
                             <div className={style.renderValueContainer}>
-                                {color?.name}
                                 <div className={style.colorPreview} style={{ backgroundColor: color?.color }} />
+                                {color?.name}
                             </div>
                         );
                     }}
                 >
-                    {colors.map((color) => (
-                        <MenuItem key={color.id} value={color.id}>
-                            {color.name}
+                    {Object.entries(colors).map(([id, color]: [string, { name: string; color: string }]) => (
+                        <MenuItem key={id} value={id}>
                             <div className={style.colorPreview} style={{ backgroundColor: color.color }} />
+                            {color.name}
                         </MenuItem>
                     ))}
                 </Select>

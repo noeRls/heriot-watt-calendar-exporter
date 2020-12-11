@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { isLogged, useGoogle, validateMiddleware, useCalendar } from '../middleware';
-import { IsString, IsNumber, Max, Min, IsArray, ArrayMinSize } from 'class-validator';
+import { IsString, IsNumber, Max, Min, IsArray, ArrayMinSize, IsOptional } from 'class-validator';
 import { createCourses } from '../../services/google/calendar';
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR, OK, FORBIDDEN } from 'http-status';
 import { prisma } from '../prisma';
@@ -44,10 +44,11 @@ class SyncRequestBody {
     @IsString()
     calendarId: string;
 
+    @IsOptional()
     @IsNumber()
     @Max(11)
     @Min(1)
-    colorId: number;
+    colorId?: number;
 
     @IsString({
         each: true,
@@ -109,7 +110,12 @@ router.post('/syncrequest',
             where: { id: syncRequest.id },
             data: { coursesFound: coursesFound.length },
         });
-        const coursesAdded = await createCourses(req.googleClient, coursesFound, calendar, colorId.toString());
+        const coursesAdded = await createCourses(
+            req.googleClient,
+            coursesFound,
+            calendar,
+            colorId,
+        );
         await prisma.syncRequest.update({
             where: { id: syncRequest.id },
             data: { coursesAdded: coursesAdded.length },

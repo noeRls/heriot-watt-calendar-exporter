@@ -22,7 +22,7 @@ export const selectSyncRequestStatus = createSelector([selectAppState], (app) =>
     if (app.syncRequest.detail.error) {
         return 'error';
     }
-    if (app.syncRequest.detail.coursesAdded !== null && app.syncRequest.detail.coursesAdded !== null) {
+    if (app.syncRequest.detail.coursesAdded !== null) {
         return 'done';
     }
     return 'loading';
@@ -39,3 +39,5 @@ export const selectCalendar = createSelector([selectCalendars, selectSelection],
 export const selectSnackbar = createSelector([selectAppState], (app) => app.snakbar);
 
 export const selectStudentGroupOptions = createSelector([selectAppState], (app) => app.studentGroupOptions);
+
+export const selectColorId = createSelector([selectAppState], (app) => app.calendarColorId);
