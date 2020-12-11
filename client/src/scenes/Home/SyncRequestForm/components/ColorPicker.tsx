@@ -1,11 +1,8 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { FormControl, InputLabel, Select, MenuItem, makeStyles, createStyles } from '@material-ui/core';
-import { noop } from 'services/utils';
-
-interface ColorPickerProps {
-    onChange: (colorId: number) => void;
-    defaultColor?: string;
-}
+import { useDispatch, useSelector } from 'react-redux';
+import { selectCalendar, selectColorId } from 'store/selector/app';
+import { setColorId } from 'store/reducer';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -28,17 +25,17 @@ const useStyles = makeStyles(() =>
 );
 
 interface Color {
-    [key: string]: {
-        name: string;
-        color: string;
-    };
+    name: string;
+    color: string;
 }
 
-export const initialColorId = 0;
-
-export const ColorPicker = ({ onChange = noop, defaultColor }: ColorPickerProps) => {
+export const ColorPicker = () => {
     const style = useStyles();
-    const colors: Color = {
+    const calendar = useSelector(selectCalendar);
+    const colorId = useSelector(selectColorId);
+    const dispatch = useDispatch();
+
+    const colors = useMemo((): { [id: string] : Color; } => ({
         '1': { name: 'Lavender', color: '#7986cb' },
         '2': { name: 'Sage', color: '#33b679' },
         '3': { name: 'Grape', color: '#8e24aa' },
@@ -50,26 +47,34 @@ export const ColorPicker = ({ onChange = noop, defaultColor }: ColorPickerProps)
         '9': { name: 'Blueberry', color: '#3f51b5' },
         '10': { name: 'Basil', color: '#0b8043' },
         '11': { name: 'Tomato', color: '#d60000' },
-
         get '0'() {
-            if (defaultColor === undefined) {
+            if (!calendar || !calendar.backgroundColor) {
                 return { name: 'Default', color: '#ffffff' };
             }
-            return { name: 'Default', color: defaultColor };
-        },
-    };
+            return { name: 'Default', color: calendar.backgroundColor };
+        }
+    }), [calendar])
+
+    const onChange = useCallback((newColorId?: number) => {
+        if (!newColorId || newColorId === 0) {
+            dispatch(setColorId(undefined));
+        } else {
+            dispatch(setColorId(newColorId));
+        }
+    }, [dispatch]);
 
     return (
         <div>
-            <FormControl className={style.formControl} disabled={defaultColor === undefined}>
+            <FormControl className={style.formControl} disabled={calendar === undefined}>
                 <InputLabel id="demo-simple-select-label">Color</InputLabel>
                 <Select
+                    value={colorId || 0}
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    defaultValue={initialColorId}
-                    onChange={(e) => onChange(e.target.value as number)}
-                    renderValue={(id) => {
-                        const color = colors[(id as number).toString()];
+                    onChange={(e) => onChange(Number(e.target.value))}
+                    renderValue={(value) => {
+                        console.log("Value: ", value)
+                        const color = colors[String(value)] || colors[0];
                         return (
                             <div className={style.renderValueContainer}>
                                 <div className={style.colorPreview} style={{ backgroundColor: color?.color }} />

@@ -2,6 +2,7 @@ version: "3"
 
 services:
   server:
+    restart: always
     build:
       args:
         NODE_ENV: production
@@ -16,6 +17,7 @@ services:
     entrypoint: sh -c "sleep 10 && npm run-script db && npm run-script start"
 
   client:
+    restart: always
     ports:
       - "3001:3000"
     entrypoint: npx serve -s build/ -l 3000
@@ -27,6 +29,7 @@ services:
         REACT_APP_API_URL: https://hw-api.box.noerls.com
 
   database:
+    restart: always
     ports:
       - "5433:5432"
     volumes:

@@ -70,7 +70,7 @@ const timestampToDateWithTz = (timestamp: number) => ({
     timeZone: 'Europe/London',
 });
 
-const createCourse = async (api: CalendarApi, course: Course, calendar: Calendar, colorId?: string): Promise<void> => {
+const createCourse = async (api: CalendarApi, course: Course, calendar: Calendar, colorId?: number): Promise<void> => {
     await api.events.insert({
         calendarId: calendar.id,
         requestBody: {
@@ -82,7 +82,7 @@ const createCourse = async (api: CalendarApi, course: Course, calendar: Calendar
             summary: course.detail.title,
             location: course.detail.locations.join(', '),
             description: buildCourseDescription(course),
-            colorId,
+            colorId: colorId ? colorId.toString() : undefined,
             reminders: {
                 useDefault: true,
             },
@@ -108,7 +108,7 @@ export const createCourses = async (
     auth: OAuth2Client,
     courses: Course[],
     calendar: Calendar,
-    colorId?: string,
+    colorId?: number,
 ): Promise<Course[]> => {
     if (courses.length === 0) {
         console.warn('No course received in google create courses');
