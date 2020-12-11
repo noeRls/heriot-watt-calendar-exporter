@@ -8,12 +8,14 @@ services:
     ports:
       - "8081:8081"
     environment:
+      RATE_LIMIT_REQUEST: 20
       NODE_ENV: production
       CORS: https://hw.box.noerls.com
       API_URL: https://hw-api.box.noerls.com
       APP_URL: https://hw.box.noerls.com
       COOKIE_SESSION_SECRET: ${COOKIE_SESSION_SECRET}
     entrypoint: sh -c "sleep 10 && npm run-script db && npm run-script start"
+    restart: always
 
   client:
     ports:
@@ -25,9 +27,11 @@ services:
       args:
         NODE_ENV: production
         REACT_APP_API_URL: https://hw-api.box.noerls.com
+    restart: always
 
   database:
     ports:
       - "5433:5432"
     volumes:
-    - /home/noe/hw/db:/var/lib/postgresql/data
+      - /home/noe/hw/db:/var/lib/postgresql/data
+    restart: always
