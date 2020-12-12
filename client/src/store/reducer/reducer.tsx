@@ -134,4 +134,9 @@ export const appSlice = createSlice({
     },
 });
 
-export const { selectedCalendarChanged, snackBarMessagePublished, snackbarVisibillityChanged, setColorId } = appSlice.actions;
+export const {
+    selectedCalendarChanged,
+    snackBarMessagePublished,
+    snackbarVisibillityChanged,
+    setColorId,
+} = appSlice.actions;
